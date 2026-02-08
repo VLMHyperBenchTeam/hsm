@@ -26,23 +26,23 @@
 ```bash
 hsm init --name sandbox-project
 ```
-*   **Результат**: Созданы `hsm.yaml` и папки `hsm-registry/{packages,containers,package_groups,container_groups}`.
+*   **Результат**: Созданы `hsm.yaml` и папки `hsm-registry/{libraries,services,library_groups,service_groups}`.
 
-### Шаг 2: Создание Кирпичиков (Package Init)
-Тест создает два реальных Python-пакета.
+### Шаг 2: Создание Кирпичиков (Library Init)
+Тест создает две реальные Python-библиотеки.
 ```bash
-hsm package init lib-standalone --path ./libs/lib-standalone
-hsm package init lib-in-group --path ./libs/lib-in-group
+hsm library init lib-standalone --path ./libs/lib-standalone
+hsm library init lib-in-group --path ./libs/lib-in-group
 ```
 *   **Действие**: HSM вызывает `uv init --lib`, создавая валидные `pyproject.toml`.
-*   **Регистрация**: Пути к пакетам автоматически прописываются в `hsm-registry/packages/`.
+*   **Регистрация**: Пути к библиотекам автоматически прописываются в `hsm-registry/libraries/`.
 
 ### Шаг 3: Сборка Стэка (Project Configuration)
-Тест распределяет пакеты и контейнеры по структуре проекта.
-1.  **Пакеты**:
-    *   `lib-standalone` добавляется как прямой пакет проекта.
+Тест распределяет библиотеки и сервисы по структуре проекта.
+1.  **Библиотеки**:
+    *   `lib-standalone` добавляется как прямая библиотека проекта.
     *   `lib-in-group` добавляется в именованную группу (например, `core-libs`).
-2.  **Контейнеры**:
+2.  **Сервисы**:
     *   Регистрируется и добавляется standalone-сервис (например, `redis`).
     *   Регистрируется и добавляется сервис в группу (например, `db-cluster`).
 
@@ -51,7 +51,7 @@ hsm package init lib-in-group --path ./libs/lib-in-group
 ```bash
 hsm sync
 ```
-*   **Проверка Python**: `uv` должен успешно создать `.venv` и установить оба пакета (один напрямую, другой через группу).
+*   **Проверка Python**: `uv` должен успешно создать `.venv` и установить обе библиотеки (одну напрямую, другую через группу).
 *   **Проверка Docker**: Команда `docker compose config` должна подтвердить валидность сгенерированного `docker-compose.hsm.yml`, объединяющего standalone-сервис и сервисы из групп.
 
 ## 4. Преимущества для HSM

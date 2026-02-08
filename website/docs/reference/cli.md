@@ -74,49 +74,57 @@ HSM поддерживает автодополнение команд для Ba
 #### `hsm container-manager set` (Future)
 Выбирает рантайм для контейнеров (например, `docker` или `podman`).
 
-### Управление сервисами с Контейнерами (`hsm container ...`)
+### Управление Сервисами (`hsm service ...`)
 
-#### `hsm container add`
-Добавляет сервис контейнер в `hsm.yaml` (в секцию `services.containers`).
+#### `hsm service add`
+Добавляет сервис в `hsm.yaml`.
 - **Аргументы**:
-  - `NAME` (Required): Имя контейнера.
-  - `--group`, `-g` (Optional): Добавить как опцию в существующую группу контейнеров.
+  - `NAME` (Required): Имя сервиса.
+  - `--group`, `-g` (Optional): Добавить как опцию в существующую группу сервисов.
 
-#### `hsm container remove`
-Удаляет контейнер из `hsm.yaml`.
+#### `hsm service remove`
+Удаляет сервис из `hsm.yaml`.
 - **Аргументы**:
-  - `NAME` (Required): Имя контейнера.
+  - `NAME` (Required): Имя сервиса.
   - `--group`, `-g` (Optional): Удалить из конкретной группы.
 
-#### `hsm container mode`
-Атомарное переключение режима для конкретного контейнера.
+#### `hsm service mode`
+Атомарное переключение режима для конкретного сервиса.
 - **Аргументы**:
-  - `NAME` (Required): Имя контейнера.
+  - `NAME` (Required): Имя сервиса.
   - `MODE` (Required): Режим (`dev` или `prod`).
 
-### Управление Пакетами (`hsm package ...`)
-
-#### `hsm package add`
-Добавляет пакет в `hsm.yaml`.
+#### `hsm service init`
+Инициализирует новый сервис в директории проекта.
 - **Аргументы**:
-  - `NAME` (Required): Имя пакета.
-  - `--group`, `-g` (Optional): Добавить как опцию в существующую группу.
-
-#### `hsm package remove`
-Удаляет пакет из `hsm.yaml`.
-- **Аргументы**:
-  - `NAME` (Required): Имя пакета.
-  - `--group`, `-g` (Optional): Удалить из конкретной группы.
-
-#### `hsm package init`
-Инициализирует новый Python-пакет в директории проекта и автоматически регистрирует его в локальном реестре.
-- **Аргументы**:
-  - `NAME` (Required): Имя пакета.
-  - `--path`, `-p` (Optional): Путь к пакету (по умолчанию `./packages/<name>`).
+  - `NAME` (Required): Имя сервиса.
+  - `--runtime`, `-r` (Optional): Рантайм сервиса (`uv`, `docker`, `podman`). По умолчанию `uv`.
+  - `--path`, `-p` (Optional): Путь к сервису (по умолчанию `./services/<name>`).
   - `--register / --no-register` (Optional): Автоматически добавить в реестр (по умолчанию включено).
 
-#### `hsm package mode`
-Атомарное переключение режима для конкретного пакета.
+### Управление Библиотеками (`hsm library ...`)
+
+#### `hsm library add`
+Добавляет библиотеку в `hsm.yaml`.
+- **Аргументы**:
+  - `NAME` (Required): Имя библиотеки.
+  - `--group`, `-g` (Optional): Добавить как опцию в существующую группу.
+
+#### `hsm library remove`
+Удаляет библиотеку из `hsm.yaml`.
+- **Аргументы**:
+  - `NAME` (Required): Имя библиотеки.
+  - `--group`, `-g` (Optional): Удалить из конкретной группы.
+
+#### `hsm library init`
+Инициализирует новую Python-библиотеку в директории проекта и автоматически регистрирует ее в локальном реестре.
+- **Аргументы**:
+  - `NAME` (Required): Имя библиотеки.
+  - `--path`, `-p` (Optional): Путь к библиотеке (по умолчанию `./packages/<name>`).
+  - `--register / --no-register` (Optional): Автоматически добавить в реестр (по умолчанию включено).
+
+#### `hsm library mode`
+Атомарное переключение режима для конкретной библиотеки.
 - **Аргументы**:
   - `NAME` (Required): Имя пакета.
   - `MODE` (Required): Режим (`dev` или `prod`).
@@ -178,15 +186,15 @@ HSM поддерживает автодополнение команд для Ba
 Устанавливает путь к директории реестра (по умолчанию `./hsm-registry`).
 - **Аргументы**: `PATH` (Required).
 
-### Управление Пакетами (`hsm registry package ...`)
+### Управление Библиотеками (`hsm registry library ...`)
 
-#### `hsm registry package add`
-Добавляет новый пакет в реестр.
+#### `hsm registry library add`
+Добавляет новую библиотеку в реестр.
 - **Аргументы**: `NAME` (Optional), `--version`, `--description`, `--prod-type`, `--prod-url`, `--dev-path`.
 - **Интерактивность**: Если аргументы не указаны, запускается мастер.
 
-#### `hsm registry package remove`
-Удаляет пакет из реестра.
+#### `hsm registry library remove`
+Удаляет библиотеку из реестра.
 - **Аргументы**:
   - `NAME` (Required): Имя пакета.
   - `--yes`, `-y` (Optional): Подтвердить удаление без запроса (для скриптов).
@@ -217,13 +225,15 @@ HSM поддерживает автодополнение команд для Ba
   - `GROUP` (Required): Имя группы.
   - `OPTION` (Required): Имя пакета.
 
-### Управление Сервисами в Контейнерах (`hsm registry container ...`)
+### Управление Сервисами (`hsm registry service ...`)
 
-#### `hsm registry container add`
-Добавляет описание сервиса (Docker-контейнера) в реестр.
+#### `hsm registry service add`
+Добавляет описание сервиса в реестр.
 
 **Общие аргументы:**
 - `NAME` (Required): Имя сервиса (например, `qdrant`).
+- `--runtime`, `-rt` (Optional): Рантайм сервиса (`docker`, `uv`, `podman`). По умолчанию `docker`.
+- `--dependency`, `-dep` (Optional, Multiple): Зависимости сервиса (другие библиотеки или сервисы).
 - `--container-name` (Optional): Явное имя контейнера (например, `qdrant-instance`).
 - `--network-alias` (Optional, Multiple): Сетевые алиасы (например, `vector-db`).
 - `--description`, `-d` (Optional): Описание сервиса.
@@ -248,7 +258,7 @@ HSM поддерживает автодополнение команд для Ba
 - `--dev-volume` (Optional, Multiple): Тома для Dev (например, `./data:/data` для hot-reload).
 - `--dev-env` (Optional, Multiple): Env для Dev.
 
-#### `hsm registry container remove`
+#### `hsm registry service remove`
 Удаляет сервис из реестра.
 - **Аргументы**:
   - `NAME` (Required): Имя сервиса.
@@ -260,12 +270,12 @@ HSM поддерживает автодополнение команд для Ba
 
 | Действие | Проект (`hsm ...`) | Реестр (`hsm registry ...`) |
 | :--- | :--- | :--- |
-| **Добавить пакет** | `package add` | `package add` |
-| **Удалить пакет** | `package remove` | `package remove` |
+| **Добавить библиотеку** | `library add` | `library add` |
+| **Удалить библиотеку** | `library remove` | `library remove` |
 | **Добавить группу** | `group add` | `group add` |
 | **Удалить группу** | `group remove` | `group remove` |
 | **Добавить опцию** | `group add-option` | `group add-option` |
 | **Удалить опцию** | `group remove-option` | `group remove-option` |
-| **Режим** | `mode`, `package mode`, `container mode` | — |
-| **Добавить контейнер** | `container add` | `container add` |
-| **Удалить контейнер** | `container remove` | `container remove` |
+| **Режим** | `mode`, `library mode`, `service mode` | — |
+| **Добавить сервис** | `service add` | `service add` |
+| **Удалить сервис** | `service remove` | `service remove` |

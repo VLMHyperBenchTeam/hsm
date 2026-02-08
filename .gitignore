@@ -1,9 +1,14 @@
 # Ignore virtual envs
 .venv/
+.env
+
+# nested git repo
+.kilocode/
 
 # Ignore tests dir and service sandbox
 debug_tests/
 sandbox
+.pytest_cache/
 
 # Ignore all __pycache__ directories recursively
 **/__pycache__/

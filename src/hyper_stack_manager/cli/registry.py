@@ -1,7 +1,7 @@
 import typer
 import yaml
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional, List, Any
 from prompt_toolkit import prompt as pt_prompt
 from prompt_toolkit.completion import WordCompleter, PathCompleter
 from rich.tree import Tree
@@ -12,12 +12,20 @@ from .utils import console, complete_registry_packages, complete_registry_groups
 registry_app = typer.Typer(help="Manage the HSM global registry")
 
 library_app = typer.Typer(help="Manage libraries in the registry")
+library_implies_app = typer.Typer(help="Manage library implications")
+library_app.add_typer(library_implies_app, name="implies")
 registry_app.add_typer(library_app, name="library")
 
 group_app = typer.Typer(help="Manage groups in the registry")
+group_option_app = typer.Typer(help="Manage group options")
+group_option_implies_app = typer.Typer(help="Manage group option implications")
+group_option_app.add_typer(group_option_implies_app, name="implies")
+group_app.add_typer(group_option_app, name="option")
 registry_app.add_typer(group_app, name="group")
 
 service_app = typer.Typer(help="Manage services in the registry")
+service_implies_app = typer.Typer(help="Manage service implications")
+service_app.add_typer(service_implies_app, name="implies")
 registry_app.add_typer(service_app, name="service")
 
 path_app = typer.Typer(help="Manage registry path configuration")
@@ -143,6 +151,54 @@ def registry_library_remove(
         console.print(f"[red]Error: {e}[/red]")
         raise typer.Exit(code=1)
 
+def parse_implies_value(target: str, args: List[str]) -> Any:
+    """Parse implies value based on target type."""
+    if target.startswith("service:"):
+        # Parse KEY=VALUE pairs into a dict
+        params = {}
+        for arg in args:
+            if "=" in arg:
+                k, v = arg.split("=", 1)
+                params[k] = v
+        return {"params": params}
+    else:
+        # For groups, it's a single value or a list
+        if len(args) == 1:
+            return args[0]
+        return args
+
+@library_implies_app.command(name="add")
+def registry_library_implies_add(
+    name: str = typer.Argument(..., help="Library name", autocompletion=complete_registry_packages),
+    target: str = typer.Argument(..., help="Target (e.g., service:postgres, library_group:server)"),
+    values: List[str] = typer.Argument(..., help="Values or params (KEY=VALUE for services)"),
+    registry: Optional[Path] = typer.Option(None, "--registry", "-r"),
+):
+    """Add an implication to a library."""
+    hsm = HSMCore(registry_path=registry)
+    try:
+        value = parse_implies_value(target, values)
+        hsm.add_registry_implication("library", name, target, value)
+        console.print(f"[green]Added implication '{target}' to library '{name}'.[/green]")
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+@library_implies_app.command(name="remove")
+def registry_library_implies_remove(
+    name: str = typer.Argument(..., help="Library name", autocompletion=complete_registry_packages),
+    target: str = typer.Argument(..., help="Target to remove"),
+    registry: Optional[Path] = typer.Option(None, "--registry", "-r"),
+):
+    """Remove an implication from a library."""
+    hsm = HSMCore(registry_path=registry)
+    try:
+        hsm.remove_registry_implication("library", name, target)
+        console.print(f"[green]Removed implication '{target}' from library '{name}'.[/green]")
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
 @group_app.command(name="add")
 def registry_group_add(
     name: Optional[str] = typer.Argument(None, help="Group name"),
@@ -231,6 +287,40 @@ def registry_group_remove_option(
         console.print(f"[red]Error: {e}[/red]")
         raise typer.Exit(code=1)
 
+@group_option_implies_app.command(name="add")
+def registry_group_option_implies_add(
+    group: str = typer.Argument(..., help="Group name", autocompletion=complete_registry_groups),
+    option: str = typer.Argument(..., help="Option name"),
+    target: str = typer.Argument(..., help="Target (e.g., service:postgres)"),
+    values: List[str] = typer.Argument(..., help="Values or params"),
+    registry: Optional[Path] = typer.Option(None, "--registry", "-r"),
+):
+    """Add an implication to a group option."""
+    hsm = HSMCore(registry_path=registry)
+    try:
+        value = parse_implies_value(target, values)
+        hsm.add_registry_option_implication(group, option, target, value)
+        console.print(f"[green]Added implication '{target}' to option '{option}' in group '{group}'.[/green]")
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+@group_option_implies_app.command(name="remove")
+def registry_group_option_implies_remove(
+    group: str = typer.Argument(..., help="Group name", autocompletion=complete_registry_groups),
+    option: str = typer.Argument(..., help="Option name"),
+    target: str = typer.Argument(..., help="Target to remove"),
+    registry: Optional[Path] = typer.Option(None, "--registry", "-r"),
+):
+    """Remove an implication from a group option."""
+    hsm = HSMCore(registry_path=registry)
+    try:
+        hsm.remove_registry_option_implication(group, option, target)
+        console.print(f"[green]Removed implication '{target}' from option '{option}' in group '{group}'.[/green]")
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
 @service_app.command(name="add")
 def registry_service_add(
     name: Optional[str] = typer.Argument(None, help="Service name"),
@@ -241,6 +331,8 @@ def registry_service_add(
     volumes: Optional[List[str]] = typer.Option(None, "--volume", "-v"),
     env: Optional[List[str]] = typer.Option(None, "--env", "-e"),
     description: Optional[str] = typer.Option(None, "--description", "-d"),
+    runtime: str = typer.Option("docker", "--runtime", "-rt", help="Runtime (docker/uv/podman)"),
+    dependencies: Optional[List[str]] = typer.Option(None, "--dependency", "-dep", help="Service dependencies"),
     no_input: bool = typer.Option(False, "--no-input"),
     registry: Optional[Path] = typer.Option(None, "--registry", "-r"),
 ):
@@ -270,6 +362,13 @@ def registry_service_add(
         prod_source = {"type": "docker-image", "image": image} if image else None
         dev_source = {"type": "build", "path": build_path, "dockerfile": dockerfile} if build_path else None
 
+        profiles = {
+            "default": {
+                "mode": "managed",
+                "runtime": runtime
+            }
+        }
+
         hsm.add_service_to_registry(
             name=name,
             description=description,
@@ -277,9 +376,43 @@ def registry_service_add(
             dev_source=dev_source,
             ports=ports,
             volumes=volumes,
-            env=env_dict
+            env=env_dict,
+            deployment_profiles=profiles,
+            dependencies=dependencies
         )
         console.print(f"[green]Service '{name}' added to registry.[/green]")
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+@service_implies_app.command(name="add")
+def registry_service_implies_add(
+    name: str = typer.Argument(..., help="Service name", autocompletion=complete_registry_containers),
+    target: str = typer.Argument(..., help="Target (e.g., service:postgres)"),
+    values: List[str] = typer.Argument(..., help="Values or params"),
+    registry: Optional[Path] = typer.Option(None, "--registry", "-r"),
+):
+    """Add an implication to a service."""
+    hsm = HSMCore(registry_path=registry)
+    try:
+        value = parse_implies_value(target, values)
+        hsm.add_registry_implication("service", name, target, value)
+        console.print(f"[green]Added implication '{target}' to service '{name}'.[/green]")
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
+@service_implies_app.command(name="remove")
+def registry_service_implies_remove(
+    name: str = typer.Argument(..., help="Service name", autocompletion=complete_registry_containers),
+    target: str = typer.Argument(..., help="Target to remove"),
+    registry: Optional[Path] = typer.Option(None, "--registry", "-r"),
+):
+    """Remove an implication from a service."""
+    hsm = HSMCore(registry_path=registry)
+    try:
+        hsm.remove_registry_implication("service", name, target)
+        console.print(f"[green]Removed implication '{target}' from service '{name}'.[/green]")
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
         raise typer.Exit(code=1)

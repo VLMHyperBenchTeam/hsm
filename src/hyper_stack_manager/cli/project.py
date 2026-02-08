@@ -187,6 +187,22 @@ def project_service_mode(
         console.print(f"[red]Error: {e}[/red]")
         raise typer.Exit(code=1)
 
+@service_app.command(name="init")
+def project_service_init(
+    name: str = typer.Argument(..., help="Service name"),
+    runtime: str = typer.Option("uv", "--runtime", "-r", help="Runtime (uv/docker/podman)"),
+    path: Optional[Path] = typer.Option(None, "--path", "-p", help="Path to create the service"),
+    register: bool = typer.Option(True, "--register/--no-register", help="Automatically register in registry"),
+):
+    """Initialize a new service in the project."""
+    hsm = HSMCore()
+    try:
+        hsm.init_service(name, runtime=runtime, path=path, register=register)
+        console.print(f"[green]Service '{name}' initialized successfully with runtime '{runtime}'.[/green]")
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(code=1)
+
 # --- Project Python Manager Commands ---
 
 @python_manager_app.command(name="set")

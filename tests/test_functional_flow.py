@@ -9,24 +9,24 @@ def test_full_sandbox_flow(runner, hsm_sandbox):
     assert result.exit_code == 0
     assert (hsm_sandbox / "hsm.yaml").exists()
 
-    # 2. Package init
-    result = runner.invoke(app, ["package", "init", "my-lib", "--no-register"])
+    # 2. Library init
+    result = runner.invoke(app, ["library", "init", "my-lib", "--no-register"])
     assert result.exit_code == 0
     assert (hsm_sandbox / "packages" / "my-lib" / "pyproject.toml").exists()
 
-    # 3. Register package manually (to test registry commands)
+    # 3. Register library manually (to test registry commands)
     result = runner.invoke(app, [
-        "registry", "package", "add", "my-lib", 
-        "--version", "0.1.0", 
-        "--prod-type", "local", 
+        "registry", "library", "add", "my-lib",
+        "--version", "0.1.0",
+        "--prod-type", "local",
         "--dev-path", "packages/my-lib",
         "--no-input"
     ])
     assert result.exit_code == 0
-    assert (hsm_sandbox / "hsm-registry" / "packages" / "my-lib.yaml").exists()
+    assert (hsm_sandbox / "hsm-registry" / "libraries" / "my-lib.yaml").exists()
 
-    # 4. Add package to project
-    result = runner.invoke(app, ["package", "add", "my-lib"])
+    # 4. Add library to project
+    result = runner.invoke(app, ["library", "add", "my-lib"])
     assert result.exit_code == 0
     
     # 5. Check

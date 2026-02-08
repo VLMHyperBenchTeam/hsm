@@ -11,13 +11,13 @@ def test_registry_list_empty(runner, tmp_path):
     assert result.exit_code == 0
     assert "HSM Global Registry" in result.stdout
 
-def test_registry_package_add_no_input(runner, tmp_path):
-    """Test adding a package to registry in no-input mode."""
+def test_registry_library_add_no_input(runner, tmp_path):
+    """Test adding a library to registry in no-input mode."""
     registry_dir = tmp_path / "registry"
     registry_dir.mkdir()
     
     result = runner.invoke(app, [
-        "registry", "package", "add", "test-pkg",
+        "registry", "library", "add", "test-pkg",
         "--version", "1.2.3",
         "--description", "Test description",
         "--prod-type", "git",
@@ -27,14 +27,14 @@ def test_registry_package_add_no_input(runner, tmp_path):
     ])
     
     assert result.exit_code == 0
-    assert "Package 'test-pkg' added to registry" in result.stdout
-    assert (registry_dir / "packages" / "test-pkg.yaml").exists()
+    assert "Library 'test-pkg' added to registry" in result.stdout
+    assert (registry_dir / "libraries" / "test-pkg.yaml").exists()
 
 def test_registry_search(runner, tmp_path):
     """Test searching in registry."""
     registry_dir = tmp_path / "registry"
     registry_dir.mkdir()
-    pkg_dir = registry_dir / "packages"
+    pkg_dir = registry_dir / "libraries"
     pkg_dir.mkdir()
     (pkg_dir / "my-cool-pkg.yaml").write_text("name: my-cool-pkg")
     
@@ -46,7 +46,7 @@ def test_registry_show(runner, tmp_path):
     """Test showing component details."""
     registry_dir = tmp_path / "registry"
     registry_dir.mkdir()
-    pkg_dir = registry_dir / "packages"
+    pkg_dir = registry_dir / "libraries"
     pkg_dir.mkdir()
     (pkg_dir / "test-show.yaml").write_text("name: test-show\nversion: 1.0.0")
     
@@ -55,18 +55,18 @@ def test_registry_show(runner, tmp_path):
     assert "test-show" in result.stdout
     assert "1.0.0" in result.stdout
 
-def test_registry_package_remove(runner, tmp_path):
-    """Test removing a package from registry."""
+def test_registry_library_remove(runner, tmp_path):
+    """Test removing a library from registry."""
     registry_dir = tmp_path / "registry"
     registry_dir.mkdir()
-    pkg_dir = registry_dir / "packages"
+    pkg_dir = registry_dir / "libraries"
     pkg_dir.mkdir()
     pkg_file = pkg_dir / "to-remove.yaml"
     pkg_file.write_text("name: to-remove")
     
-    result = runner.invoke(app, ["registry", "package", "remove", "to-remove", "--yes", "--registry", str(registry_dir)])
+    result = runner.invoke(app, ["registry", "library", "remove", "to-remove", "--yes", "--registry", str(registry_dir)])
     assert result.exit_code == 0
-    assert "Package 'to-remove' removed from registry" in result.stdout
+    assert "Library 'to-remove' removed from registry" in result.stdout
     assert not pkg_file.exists()
 
 def test_registry_group_add_no_input(runner, tmp_path):
@@ -76,7 +76,7 @@ def test_registry_group_add_no_input(runner, tmp_path):
     
     result = runner.invoke(app, [
         "registry", "group", "add", "test-group",
-        "--type", "package_group",
+        "--type", "library_group",
         "--strategy", "1-of-N",
         "--option", "opt1",
         "--option", "opt2",
@@ -86,15 +86,15 @@ def test_registry_group_add_no_input(runner, tmp_path):
     
     assert result.exit_code == 0
     assert "Group 'test-group' added to registry" in result.stdout
-    assert (registry_dir / "package_groups" / "test-group.yaml").exists()
+    assert (registry_dir / "library_groups" / "test-group.yaml").exists()
 
-def test_registry_container_add_no_input(runner, tmp_path):
-    """Test adding a container to registry."""
+def test_registry_service_add_no_input(runner, tmp_path):
+    """Test adding a service to registry."""
     registry_dir = tmp_path / "registry"
     registry_dir.mkdir()
     
     result = runner.invoke(app, [
-        "registry", "container", "add", "test-cont",
+        "registry", "service", "add", "test-svc",
         "--image", "nginx:latest",
         "--port", "80:80",
         "--no-input",
@@ -102,5 +102,5 @@ def test_registry_container_add_no_input(runner, tmp_path):
     ])
     
     assert result.exit_code == 0
-    assert "Container 'test-cont' added to registry" in result.stdout
-    assert (registry_dir / "containers" / "test-cont.yaml").exists()
+    assert "Service 'test-svc' added to registry" in result.stdout
+    assert (registry_dir / "services" / "test-svc.yaml").exists()

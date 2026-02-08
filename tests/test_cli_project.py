@@ -24,63 +24,65 @@ def test_project_mode_set(runner, temp_project, monkeypatch):
         # sets mode for each package/group)
         # For now, just check if command succeeded.
 
-def test_project_package_add(runner, temp_project, tmp_path, monkeypatch):
-    """Test adding a package to project."""
-    # Setup a mock registry
-    registry_dir = tmp_path / "registry"
-    registry_dir.mkdir()
-    (registry_dir / "packages").mkdir()
-    (registry_dir / "packages" / "my-pkg.yaml").write_text("name: my-pkg\nsources: {prod: {type: git, url: '...'}}")
+def test_project_library_add(runner, hsm_sandbox):
+    """Test adding a library to project using High-Fidelity approach."""
+    # 1. Setup Registry via CLI
+    runner.invoke(app, [
+        "registry", "library", "add", "my-lib",
+        "--version", "0.1.0",
+        "--prod-type", "git",
+        "--prod-url", "https://github.com/org/repo",
+        "--no-input"
+    ])
     
-    monkeypatch.chdir(temp_project)
-    # Set registry path in project (if possible via CLI or env)
-    # For simplicity, we assume HSMCore finds it or we mock it.
-    # Let's just test the CLI command execution.
-    result = runner.invoke(app, ["package", "add", "my-pkg"])
+    # 2. Init Project
+    runner.invoke(app, ["init", "--name", "test-project"])
+    
+    # 3. Action: Add library
+    result = runner.invoke(app, ["library", "add", "my-lib"])
     assert result.exit_code == 0
-    assert "Added package 'my-pkg' to project" in result.stdout
+    assert "Added library 'my-lib' to project" in result.stdout
 
-def test_project_sync_mocked(runner, temp_project, monkeypatch):
-    """Test sync command with mocked core logic to avoid real subprocess calls."""
-    from hyper_stack_manager.core import HSMCore
+def test_project_sync_basic(runner, hsm_sandbox):
+    """Test sync command without mocking (High-Fidelity)."""
+    runner.invoke(app, ["init", "--name", "sync-project"])
     
-    def mock_sync(self, frozen=False):
-        print("Mocked sync called")
-        
-    monkeypatch.setattr(HSMCore, "sync", mock_sync)
-    monkeypatch.chdir(temp_project)
-    
-    result = runner.invoke(app, ["sync"])
+    # Use --no-verify because we don't have real packages installed
+    result = runner.invoke(app, ["sync", "--no-verify"])
     assert result.exit_code == 0
     assert "Environment synced successfully" in result.stdout
 
-def test_project_package_remove(runner, temp_project, monkeypatch):
-    """Test removing a package from project."""
-    # First add it
-    with open(temp_project / "hsm.yaml", "w") as f:
-        f.write("project: {name: test, manager: uv}\npackages: [to-remove]")
+def test_project_library_remove(runner, hsm_sandbox):
+    """Test removing a library from project."""
+    runner.invoke(app, ["init", "--name", "remove-project"])
     
-    monkeypatch.chdir(temp_project)
-    result = runner.invoke(app, ["package", "remove", "to-remove"])
+    # Setup registry and add library
+    runner.invoke(app, ["registry", "library", "add", "to-remove", "--no-input"])
+    runner.invoke(app, ["library", "add", "to-remove"])
+    
+    result = runner.invoke(app, ["library", "remove", "to-remove"])
     assert result.exit_code == 0
-    assert "Removed package 'to-remove' from project" in result.stdout
+    assert "Removed library 'to-remove' from project" in result.stdout
 
-def test_project_group_add(runner, temp_project, monkeypatch):
+def test_project_group_add(runner, hsm_sandbox):
     """Test adding a group to project."""
-    # Create registry inside project root so HSMCore can find it by default
-    registry_dir = temp_project / "hsm-registry"
-    registry_dir.mkdir()
-    (registry_dir / "package_groups").mkdir()
-    (registry_dir / "package_groups" / "my-group.yaml").write_text("name: my-group\ntype: package_group\nstrategy: 1-of-N\noptions: [{name: opt1}]")
+    runner.invoke(app, ["init", "--name", "group-project"])
+    
+    # Setup registry group via CLI
+    runner.invoke(app, [
+        "registry", "group", "add", "my-group",
+        "--type", "library_group",
+        "--option", "opt1",
+        "--no-input"
+    ])
 
-    monkeypatch.chdir(temp_project)
     result = runner.invoke(app, ["group", "add", "my-group", "--option", "opt1"])
     assert result.exit_code == 0
     assert "Added group 'my-group' with selection 'opt1'" in result.stdout
 
-def test_project_python_manager_set(runner, temp_project, monkeypatch):
+def test_project_python_manager_set(runner, hsm_sandbox):
     """Test setting python manager."""
-    monkeypatch.chdir(temp_project)
+    runner.invoke(app, ["init", "--name", "manager-project"])
     result = runner.invoke(app, ["python-manager", "set", "pixi"])
     assert result.exit_code == 0
     assert "Python manager set to pixi" in result.stdout

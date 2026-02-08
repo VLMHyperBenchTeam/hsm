@@ -8,18 +8,19 @@ def test_docker_compose_config_validation(runner, hsm_sandbox):
     # 1. Setup project and registry
     runner.invoke(app, ["init", "--name", "docker-test"])
     
-    # Add a container to registry
+    # Add a service to registry
     runner.invoke(app, [
-        "registry", "container", "add", "web-server",
+        "registry", "service", "add", "web-server",
         "--image", "nginx:latest",
         "--port", "8080:80",
+        "--runtime", "docker",
         "--no-input"
     ])
     
-    # Add a group with this container
+    # Add a group with this service
     runner.invoke(app, [
         "registry", "group", "add", "web-group",
-        "--type", "container_group",
+        "--type", "service_group",
         "--strategy", "1-of-N",
         "--option", "web-server",
         "--no-input"
@@ -29,7 +30,7 @@ def test_docker_compose_config_validation(runner, hsm_sandbox):
     runner.invoke(app, ["group", "add", "web-group", "--option", "web-server"])
     
     # 3. Sync (generates docker-compose.hsm.yml)
-    result = runner.invoke(app, ["sync"])
+    result = runner.invoke(app, ["sync", "--no-verify"])
     assert result.exit_code == 0
     
     compose_file = hsm_sandbox / "docker-compose.hsm.yml"

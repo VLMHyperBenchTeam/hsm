@@ -1,8 +1,9 @@
 # Ignore virtual envs
 .venv/
 
-# Ignore tests dir
+# Ignore tests dir and service sandbox
 debug_tests/
+sandbox
 
 # Ignore all __pycache__ directories recursively
 **/__pycache__/

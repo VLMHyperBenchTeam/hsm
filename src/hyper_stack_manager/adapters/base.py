@@ -47,6 +47,27 @@ class BasePackageManagerAdapter(ABC):
         """
         pass
 
+    @abstractmethod
+    def init_service(self, path: Path):
+        """Initialize a new service at the given path.
+
+        Args:
+            path: Path where to initialize the service.
+        """
+        pass
+
+    @abstractmethod
+    def sync_service(self, path: Path, packages: List[str], frozen: bool = False, env_vars: Optional[Dict[str, str]] = None):
+        """Sync service dependencies.
+
+        Args:
+            path: Path to the service.
+            packages: List of package requirement strings to add to the service.
+            frozen: If True, do not update dependencies, use lock file.
+            env_vars: Optional environment variables to pass to the sync command.
+        """
+        pass
+
 
 class BaseContainerAdapter(ABC):
     """Abstract base class for container service adapters (e.g., docker, podman)."""

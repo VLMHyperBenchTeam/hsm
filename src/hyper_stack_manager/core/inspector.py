@@ -1,6 +1,7 @@
 import json
 import subprocess
 import logging
+from pathlib import Path
 from typing import Dict, List, Any, Optional
 
 logger = logging.getLogger(__name__)
@@ -8,21 +9,25 @@ logger = logging.getLogger(__name__)
 class EnvironmentInspector:
     """Inspects the current environment (packages and containers)."""
 
-    def get_installed_packages(self, manager: str) -> Dict[str, str]:
+    def get_installed_packages(self, manager: str, cwd: Optional[Path] = None) -> Dict[str, str]:
         """
         Get installed packages and their versions.
         
         Args:
             manager: Package manager to use (uv, pixi, pip).
+            cwd: Optional directory to run the command in.
             
         Returns:
             Dict of {package_name: version}.
         """
         try:
             if manager == "uv":
+                cmd = ["uv", "pip", "list", "--format", "json"]
+                # If we are in a standalone project, we might need to ensure we don't use workspace
+                # but uv pip list usually respects the local .venv
                 result = subprocess.run(
-                    ["uv", "pip", "list", "--format", "json"],
-                    capture_output=True, text=True, check=True
+                    cmd,
+                    capture_output=True, text=True, check=True, cwd=cwd
                 )
                 data = json.loads(result.stdout)
                 return {pkg["name"]: pkg["version"] for pkg in data}

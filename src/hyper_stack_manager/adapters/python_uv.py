@@ -2,7 +2,7 @@ import subprocess
 import logging
 import os
 from pathlib import Path
-from typing import List
+from typing import List, Optional, Dict, Any
 import tomlkit
 from .base import BasePackageManagerAdapter
 
@@ -60,9 +60,9 @@ class UvAdapter(BasePackageManagerAdapter):
             raise
 
     def init_lib(self, path: Path):
-        """Initialize a new library with uv init --lib."""
+        """Initialize a new library with uv init --lib --no-workspace."""
         path.mkdir(parents=True, exist_ok=True)
-        cmd = self._get_base_cmd() + ["init", "--lib"]
+        cmd = self._get_base_cmd() + ["init", "--lib", "--no-workspace"]
         try:
             subprocess.run(cmd, check=True, cwd=path)
         except subprocess.CalledProcessError as e:
@@ -70,11 +70,51 @@ class UvAdapter(BasePackageManagerAdapter):
             raise
 
     def init_project(self, path: Path):
-        """Initialize a new project with uv init."""
+        """Initialize a new project with uv init --no-workspace."""
         path.mkdir(parents=True, exist_ok=True)
-        cmd = self._get_base_cmd() + ["init"]
+        cmd = self._get_base_cmd() + ["init", "--no-workspace"]
         try:
             subprocess.run(cmd, check=True, cwd=path)
         except subprocess.CalledProcessError as e:
             logger.error(f"uv init failed: {e}")
+            raise
+
+    def init_service(self, path: Path):
+        """Initialize a new service with uv init --no-workspace."""
+        path.mkdir(parents=True, exist_ok=True)
+        cmd = self._get_base_cmd() + ["init", "--no-workspace"]
+        try:
+            subprocess.run(cmd, check=True, cwd=path)
+        except subprocess.CalledProcessError as e:
+            logger.error(f"uv init (service) failed: {e}")
+            raise
+
+    def sync_service(self, path: Path, packages: List[str], frozen: bool = False, env_vars: Optional[Dict[str, str]] = None):
+        """Sync service dependencies using uv sync inside the service path."""
+        env = os.environ.copy()
+        env["UV_NO_WORKSPACE"] = "1"
+        # Ensure we don't use the parent venv
+        env.pop("VIRTUAL_ENV", None)
+        if env_vars:
+            env.update(env_vars)
+
+        # 1. Add dependencies if any
+        if packages:
+            logger.info(f"Adding {len(packages)} dependencies to service at {path}...")
+            add_cmd = self._get_base_cmd() + ["add", "--no-workspace"] + packages
+            try:
+                subprocess.run(add_cmd, check=True, cwd=path, env=env)
+            except subprocess.CalledProcessError as e:
+                logger.error(f"uv add (service) failed: {e}")
+                raise
+
+        # 2. Run uv sync
+        cmd = self._get_base_cmd() + ["sync"]
+        if frozen:
+            cmd.append("--frozen")
+        
+        try:
+            subprocess.run(cmd, check=True, cwd=path, env=env)
+        except subprocess.CalledProcessError as e:
+            logger.error(f"uv sync (service) failed: {e}")
             raise

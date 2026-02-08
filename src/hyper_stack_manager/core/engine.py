@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import List, Dict, Optional, Any, Union, Type
 
 from ..manifest import HSMProjectManifest
+from ..models import ServiceManifest
 from ..adapters.base import BasePackageManagerAdapter, BaseContainerAdapter
 from .registry_manager import RegistryManager
 from .sync_engine import SyncEngine
@@ -100,17 +101,14 @@ class HSMCore:
             "containers": {"status": "ok", "missing": [], "not_running": []}
         }
 
-        # 1. Verify Packages
+        # 1. Verify Packages (Root)
         installed = self.inspector.get_installed_packages(self.manifest.manager)
-        # Note: This is a simplified verification.
-        # In a real scenario, we'd resolve the full expected list.
-        # For now, we check if the explicitly requested packages are present.
         for pkg_name in self.manifest.libraries:
             if pkg_name not in installed:
                 results["packages"]["missing"].append(pkg_name)
                 results["packages"]["status"] = "error"
 
-        # 2. Verify Services (Containers)
+        # 2. Verify Services (Containers and VES)
         running = self.inspector.get_running_containers()
         running_names = []
         for c in running:
@@ -122,9 +120,28 @@ class HSMCore:
         # Check standalone services
         standalone_services = self.manifest.services
         for name in standalone_services:
-            if name not in running_names:
-                results["containers"]["missing"].append(name)
-                results["containers"]["status"] = "error"
+            # Check if it's a container or VES
+            cont_path = self.registry_path / "services" / f"{name}.yaml"
+            if cont_path.exists():
+                with open(cont_path, "r") as f:
+                    data = yaml.safe_load(f)
+                    manifest = ServiceManifest(**data)
+                
+                profile = manifest.deployment_profiles.get("default")
+                if profile and profile.runtime == "uv":
+                    # Verify VES (check if .venv exists and packages are installed)
+                    mode = self.manifest.get_mode(name)
+                    source = manifest.sources.dev if mode == "dev" and manifest.sources.dev else manifest.sources.prod
+                    if source and source.type == "local":
+                        path = self.project_root / source.path
+                        if not (path / ".venv").exists():
+                            results["containers"]["missing"].append(f"{name} (VES environment)")
+                            results["containers"]["status"] = "error"
+                else:
+                    # Verify Container
+                    if name not in running_names:
+                        results["containers"]["missing"].append(name)
+                        results["containers"]["status"] = "error"
 
         return results
 
@@ -155,6 +172,18 @@ class HSMCore:
 
     def get_component_details(self, name: str) -> Optional[Dict[str, Any]]:
         return self.registry.get_details(name)
+
+    def add_registry_implication(self, component_type: str, name: str, target: str, value: Any):
+        self.registry.add_implication(component_type, name, target, value)
+
+    def remove_registry_implication(self, component_type: str, name: str, target: str):
+        self.registry.remove_implication(component_type, name, target)
+
+    def add_registry_option_implication(self, group_name: str, option_name: str, target: str, value: Any):
+        self.registry.add_option_implication(group_name, option_name, target, value)
+
+    def remove_registry_option_implication(self, group_name: str, option_name: str, target: str):
+        self.registry.remove_option_implication(group_name, option_name, target)
 
     # --- Project Management Methods (to be moved to ProjectManager later if needed) ---
 
@@ -256,12 +285,17 @@ class HSMCore:
             logger.info(f"Option '{option}' implies additional dependencies: {selected_opt.implies}")
             for target_type_group, target_option in selected_opt.implies.items():
                 if ":" in target_type_group:
-                    _, target_group_name = target_type_group.split(":", 1)
-                    if isinstance(target_option, list):
-                        for opt in target_option:
-                            self.add_group_option(target_group_name, opt)
-                    else:
-                        self.add_group_option(target_group_name, target_option)
+                    target_type, target_group_name = target_type_group.split(":", 1)
+                    if target_type in ["library_group", "service_group", "container_group"]:
+                        # Support legacy 'container_group' for compatibility
+                        if target_type == "container_group":
+                            target_group_name = target_group_name
+                        
+                        if isinstance(target_option, list):
+                            for opt in target_option:
+                                self.add_group_option(target_group_name, opt)
+                        else:
+                            self.add_group_option(target_group_name, target_option)
 
         self.manifest.save()
         logger.info(f"Added group {group_name} with selection {option} to hsm.yaml")
@@ -303,3 +337,46 @@ class HSMCore:
                 prod_source={"type": "local", "path": rel_path},
                 dev_source={"type": "local", "path": rel_path, "editable": True}
             )
+
+    def init_service(self, name: str, runtime: str = "uv", path: Optional[Path] = None, register: bool = True):
+        """Initialize a new service at the given path."""
+        if path is None:
+            path = self.project_root / "services" / name
+        
+        if not path.is_absolute():
+            path = self.project_root / path
+
+        logger.info(f"Initializing service '{name}' with runtime '{runtime}' at {path}")
+        
+        # Currently only uv runtime supports init_service
+        if runtime == "uv":
+            # We use package_adapter if it's uv, or we might need a dedicated runtime resolver
+            # For now, assuming package_adapter is the one handling uv
+            if hasattr(self.package_adapter, "init_service"):
+                self.package_adapter.init_service(path)
+            else:
+                raise RuntimeError(f"Adapter {self.package_adapter.__class__.__name__} does not support init_service")
+        else:
+            # For docker/podman we just create the directory
+            path.mkdir(parents=True, exist_ok=True)
+            logger.info(f"Created directory for service: {path}")
+
+        if register:
+            # Check if already registered to avoid overwriting custom config
+            existing = self.registry.get_details(name)
+            if existing:
+                logger.info(f"Service '{name}' already in registry, skipping registration during init.")
+            else:
+                rel_path = os.path.relpath(path, self.project_root)
+                self.add_service_to_registry(
+                    name=name,
+                    description=f"Local service {name}",
+                    prod_source={"type": "local", "path": rel_path},
+                    dev_source={"type": "local", "path": rel_path},
+                    deployment_profiles={
+                        "default": {
+                            "mode": "managed",
+                            "runtime": runtime
+                        }
+                    }
+                )

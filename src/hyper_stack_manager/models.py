@@ -75,4 +75,7 @@ class ServiceManifest(BaseModel):
     volumes: List[str] = Field(default_factory=list)
     env: Dict[str, str] = Field(default_factory=dict)
     sources: ManifestSources
+    dependencies: List[Union[str, HSMDependency]] = Field(default_factory=list)
+    implies: Dict[str, Any] = Field(default_factory=dict)
+    library_groups: Dict[str, Any] = Field(default_factory=dict)
     deployment_profiles: Dict[str, DeploymentProfile] = Field(default_factory=dict)

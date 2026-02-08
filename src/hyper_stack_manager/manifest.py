@@ -258,17 +258,33 @@ class HSMProjectManifest:
     def set_mode(self, name: str, mode: str):
         """Set the mode (dev/prod) for a component or group in the manifest.
 
+        If name is a group, sets mode for all currently selected components in that group.
+
         Args:
             name: Component or group name.
             mode: Mode ('dev' or 'prod').
         """
-        # 1. Check library groups
-        groups = self.data.get("libraries", {}).get("groups", {})
-        if name in groups:
-            groups[name]["mode"] = mode
+        # 1. Check if it's a library group
+        lib_groups = self.data.get("libraries", {}).get("groups", {})
+        if name in lib_groups:
+            selection = lib_groups[name].get("selection")
+            if selection:
+                selections = [selection] if isinstance(selection, str) else selection
+                for s in selections:
+                    self.set_mode(s, mode)
             return
 
-        # 2. Check standalone libraries
+        # 2. Check if it's a service group
+        svc_groups = self.data.get("services", {}).get("groups", {})
+        if name in svc_groups:
+            selection = svc_groups[name].get("selection")
+            if selection:
+                selections = [selection] if isinstance(selection, str) else selection
+                for s in selections:
+                    self.set_mode(s, mode)
+            return
+
+        # 3. Check standalone libraries
         pkgs = self.data.get("libraries", {}).get("standalone", [])
         for i, pkg in enumerate(pkgs):
             if isinstance(pkg, str) and pkg == name:
@@ -277,12 +293,6 @@ class HSMProjectManifest:
             elif isinstance(pkg, dict) and pkg.get("name") == name:
                 pkg["mode"] = mode
                 return
-
-        # 3. Check service groups
-        s_groups = self.data.get("services", {}).get("groups", {})
-        if name in s_groups:
-            s_groups[name]["mode"] = mode
-            return
 
         # 4. Check standalone services
         services = self.data.get("services", {}).get("standalone", [])
@@ -294,45 +304,30 @@ class HSMProjectManifest:
                 srv["mode"] = mode
                 return
         
-        # Fallback: store in a generic modes section if not found in structure
+        # 5. Store in generic modes section (for components in groups)
         modes = self.data.setdefault("modes", {})
         modes[name] = mode
 
     def get_mode(self, name: str) -> str:
-        """Get the mode for a component or group. Defaults to 'prod'."""
-        # 1. Check library groups
-        groups = self.data.get("libraries", {}).get("groups", {})
-        if name in groups and "mode" in groups[name]:
-            return groups[name]["mode"]
-        
-        # Check if name is a selection in any library group
-        for g_cfg in groups.values():
-            selection = g_cfg.get("selection")
-            if selection == name or (isinstance(selection, (list, tuple)) and name in selection):
-                return g_cfg.get("mode", "prod")
+        """Get the mode for a component. Defaults to 'prod'.
 
-        # 2. Check standalone libraries
+        Args:
+            name: Component name.
+
+        Returns:
+            Mode ('dev' or 'prod').
+        """
+        # 1. Check standalone libraries
         pkgs = self.data.get("libraries", {}).get("standalone", [])
         for pkg in pkgs:
             if isinstance(pkg, dict) and pkg.get("name") == name:
                 return pkg.get("mode", "prod")
 
-        # 3. Check service groups
-        s_groups = self.data.get("services", {}).get("groups", {})
-        if name in s_groups and "mode" in s_groups[name]:
-            return s_groups[name]["mode"]
-            
-        # Check if name is a selection in any service group
-        for g_cfg in s_groups.values():
-            selection = g_cfg.get("selection")
-            if selection == name or (isinstance(selection, (list, tuple)) and name in selection):
-                return g_cfg.get("mode", "prod")
-
-        # 4. Check standalone services
+        # 2. Check standalone services
         services = self.data.get("services", {}).get("standalone", [])
         for srv in services:
             if isinstance(srv, dict) and srv.get("name") == name:
                 return srv.get("mode", "prod")
 
-        # 5. Check generic modes section
+        # 3. Check generic modes section (for components in groups)
         return self.data.get("modes", {}).get(name, "prod")

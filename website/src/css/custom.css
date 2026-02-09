@@ -61,6 +61,20 @@
 .neon-text-lime { text-shadow: 0 0 10px rgba(218, 255, 0, 0.5); }
 .neon-glow-cyan { box-shadow: 0 0 15px rgba(0, 255, 204, 0.2); }
 
+/* Fixed styles for Quick Start button to ignore theme switching */
+.quick-start-button-fixed {
+  background-color: rgba(14, 17, 22, 0.8) !important;
+  border-color: rgba(0, 255, 204, 0.2) !important;
+  color: #00FFCC !important;
+}
+
+.quick-start-button-fixed:hover {
+  background-color: rgba(0, 255, 204, 0.1) !important;
+  border-color: rgba(0, 255, 204, 0.5) !important;
+  color: #00FFCC !important;
+  box-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
+}
+
 .mask-gradient-v {
     -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
     mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);

@@ -29,7 +29,7 @@ export default function Home(): React.JSX.Element {
           <div className="mt-12 flex justify-center">
             <Link
               to="/docs/intro"
-              className="group relative inline-flex items-center justify-center px-8 py-4 font-display font-bold text-primary border border-primary/20 bg-[#0e1116]/80 hover:bg-primary/10 hover:border-primary/50 transition-all duration-300 no-underline backdrop-blur-sm"
+              className="group relative inline-flex items-center justify-center px-8 py-4 font-display font-bold border transition-all duration-300 no-underline backdrop-blur-sm quick-start-button-fixed"
               style={{
                 clipPath: 'polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px)'
               }}
@@ -38,7 +38,9 @@ export default function Home(): React.JSX.Element {
               <span className="tracking-[0.2em]">QUICK START - 5 MIN</span>
               
               {/* Decorative corner arrow */}
-              <svg className="absolute -bottom-1 -right-1 w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-1 group-hover:translate-y-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg className="absolute -bottom-1 -right-1 w-4 h-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-1 group-hover:translate-y-1"
+                   style={{ color: '#00FFCC' }}
+                   viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M7 17L17 17L17 7" />
               </svg>
             </Link>

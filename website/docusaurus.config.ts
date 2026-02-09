@@ -69,13 +69,13 @@ const config: Config = {
       },
     },
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/social-card.png',
     navbar: {
       title: 'HSM',
       logo: {
         alt: 'HSM Logo',
-        src: 'img/logo.svg',
-        srcDark: 'img/logo.svg',
+        src: 'img/logo-v2.svg',
+        srcDark: 'img/logo-v2.svg',
       },
       items: [
         {

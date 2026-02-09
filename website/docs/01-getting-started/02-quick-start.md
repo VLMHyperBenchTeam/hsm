@@ -9,21 +9,24 @@
 project:
   name: "my-rag-app"
 
-# Группы Python-пакетов
-dependencies:
-  package_groups:
+# Группы библиотек
+libraries:
+  groups:
     vector-db:
       strategy: 1-of-N
       selection: qdrant-adapter
-      mode: dev
 
-# Группы Docker-сервисов
+# Группы сервисов
 services:
-  container_groups:
+  groups:
     infra:
       strategy: M-of-N
       selection: ["postgres", "redis"]
-      mode: prod
+
+modes:
+  qdrant-adapter: dev
+  postgres: prod
+  redis: prod
 ```
 
 ## 2. Команды управления проектом
@@ -46,15 +49,15 @@ services:
 
 ## 3. Редактирование стека
 
-### hsm package add / remove
-Управление отдельными Python-пакетами.
+### hsm library add / remove
+Управление отдельными библиотеками.
 ```bash
-hsm package add langchain
-hsm package remove langchain
+hsm library add langchain
+hsm library remove langchain
 ```
 
-### hsm package init
-Создает новый локальный пакет в папке `./packages/` и автоматически регистрирует его в реестре. Это реализует паттерн **Self-Bootstrapping Sandbox**, позволяя мгновенно переходить от идеи к коду.
+### hsm library init
+Создает новую локальную библиотеку в папке `./libraries/` и автоматически регистрирует ее в реестре. Это реализует паттерн **Self-Bootstrapping Sandbox**, позволяя мгновенно переходить от идеи к коду.
 
 ### hsm group add / remove
 Управление логическими группами (интерфейсами).
@@ -69,11 +72,11 @@ hsm group add vector-db --option qdrant-adapter
 hsm mode dev
 ```
 
-### hsm package mode / hsm container mode
-Атомарное переключение режима для конкретного пакета или сервиса.
+### hsm library mode / hsm service mode
+Атомарное переключение режима для конкретной библиотеки или сервиса.
 ```bash
-hsm package mode qdrant-adapter dev
-hsm container mode postgres prod
+hsm library mode qdrant-adapter dev
+hsm service mode postgres prod
 ```
 
 ## 4. Работа с Реестром

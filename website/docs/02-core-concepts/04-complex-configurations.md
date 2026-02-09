@@ -18,8 +18,8 @@ sidebar_position: 4
 ```mermaid
 graph TD
     subgraph Project [1. hsm.yaml]
-        PkgA[Package: auth-service]
-        PkgB[Package: billing-service]
+        PkgA[Library: auth-service]
+        PkgB[Library: billing-service]
     end
     
     subgraph Registry [2. HSM Registry]
@@ -42,29 +42,29 @@ graph TD
 ```
 
 **Как это работает**:
-HSM анализирует зависимости всех выбранных пакетов. Если несколько пакетов ссылаются на один и тот же идентификатор контейнера в реестре, HSM выполняет **Implication Merging** (слияние намерений). Подробное описание алгоритма и синтаксиса приведено в [Dependency Implication (Implies)](./10_dependency_implication.md).
+HSM анализирует зависимости всех выбранных библиотек. Если несколько библиотек ссылаются на один и тот же идентификатор сервиса в реестре, HSM выполняет **Implication Merging** (слияние намерений). Подробное описание алгоритма и синтаксиса приведено в [Dependency Implication (Implies)](./03-dependency-implication.md).
 
 **Примеры конфигураций**:
 
-1.  **Пакет 1 (Auth)** (`registry/packages/auth-service.yaml`):
+1.  **Библиотека 1 (Auth)** (`registry/libraries/auth-service.yaml`):
     ```yaml
     name: auth-service
     implies:
-      container:postgres:
+      service:postgres:
         params:
           db_name: "auth_db"
     ```
 
-2.  **Пакет 2 (Billing)** (`registry/packages/billing-service.yaml`):
+2.  **Библиотека 2 (Billing)** (`registry/libraries/billing-service.yaml`):
     ```yaml
     name: billing-service
     implies:
-      container:postgres:
+      service:postgres:
         params:
           db_name: "billing_db"
     ```
 
-3.  **Сервис (Postgres)** (`registry/containers/postgres.yaml`):
+3.  **Сервис (Postgres)** (`registry/services/postgres.yaml`):
     ```yaml
     name: postgres
     env:
@@ -74,16 +74,17 @@ HSM анализирует зависимости всех выбранных п
 
 4.  **Манифест проекта** (`hsm.yaml`):
     ```yaml
-    packages:
-      - auth-service
-      - billing-service
+    libraries:
+      standalone:
+        - auth-service
+        - billing-service
     # HSM сам достроит секцию services, обнаружив общую зависимость
     ```
 
 ---
 
 ### 1.2. Общий доступ в External режиме (Shared Remote DB)
-**Задача**: Много пакетов должны подключиться к одной удаленной БД, параметры которой описаны в реестре.
+**Задача**: Много библиотек должны подключиться к одной удаленной БД, параметры которой описаны в реестре.
 
 ```mermaid
 graph TD
@@ -112,7 +113,7 @@ graph TD
 
 **Примеры конфигураций**:
 
-1.  **Реестр сервиса** (`registry/containers/qdrant.yaml`):
+1.  **Реестр сервиса** (`registry/services/qdrant.yaml`):
     ```yaml
     name: qdrant
     deployment_profiles:
@@ -126,7 +127,7 @@ graph TD
 2.  **Манифест проекта** (`hsm.yaml`):
     ```yaml
     services:
-      container_groups:
+      groups:
         vector-db:
           selection: qdrant
           profile: external-corp # Все клиенты qdrant в проекте подключатся к 10.0.0.50
@@ -168,7 +169,7 @@ HSM позволяет смешивать режимы развертывани�
 **Пример конфигурации `hsm.yaml`**:
 ```yaml
 services:
-  container_groups:
+  groups:
     chunker-service:
       selection: local-chunker
       profile: managed-dev    # Будет запущен локальный контейнер через Docker Compose
@@ -211,24 +212,24 @@ HSM одновременно управляет и внешними связям
 
 ## Кейс 4: "Симметричная разработка" (Editable Stack)
 
-**Задача**: Нужно одновременно вносить изменения в клиентский пакет и сервис, с которым он работает (например, `neo4j-client` и `graph-builder-service`).
+**Задача**: Нужно одновременно вносить изменения в клиентскую библиотеку и сервис, с которым она работает (например, `neo4j-client` и `graph-builder-service`).
 
 **Как это делает HSM**:
-Использование **Editable Sources** в реестре. При выполнении `hsm sync`, HSM (через `uv`) установит пакет как ссылку на локальную папку, а сервис запустит из локального контекста сборки. Любое изменение кода в папках разработчика мгновенно отразится на работе всего стэка.
+Использование **Editable Sources** в реестре. При выполнении `hsm sync`, HSM (через `uv`) установит библиотеку как ссылку на локальную папку, а сервис запустит из локального контекста сборки. Любое изменение кода в папках разработчика мгновенно отразится на работе всего стэка.
 
 **Примеры конфигураций**:
 
-1.  **Пакет (Neo4j Client)** (`registry/packages/neo4j-client.yaml`):
+1.  **Библиотека (Neo4j Client)** (`registry/libraries/neo4j-client.yaml`):
     ```yaml
     name: neo4j-client
     sources:
       dev:
         type: local
-        path: "../../packages/neo4j-client"
+        path: "../../libraries/neo4j-client"
         editable: true # Установка через 'uv pip install -e'
     ```
 
-2.  **Сервис (Graph Builder)** (`registry/containers/graph-builder-service.yaml`):
+2.  **Сервис (Graph Builder)** (`registry/services/graph-builder-service.yaml`):
     ```yaml
     name: graph-builder-service
     sources:
@@ -240,10 +241,12 @@ HSM одновременно управляет и внешними связям
 
 3.  **Манифест проекта** (`hsm.yaml`):
     ```yaml
-    packages:
-      - neo4j-client: dev
+    libraries:
+      standalone:
+        - name: neo4j-client
+          mode: dev
     services:
-      container_groups:
+      groups:
         graph-services:
           selection: graph-builder-service
           profile: managed-dev
@@ -254,14 +257,14 @@ HSM одновременно управляет и внешними связям
 
 ## Кейс 5: "Секреты без утечек" (Zero-Leak Secrets)
 
-**Задача**: Нужно передать API ключи и порты в контейнеры и пакеты (например, для `neo4j-client: prod` и `graph-builder-service: managed-prod`), не сохраняя их в Git.
+**Задача**: Нужно передать API ключи и порты в контейнеры и библиотеки (например, для `neo4j-client: prod` и `graph-builder-service: managed-prod`), не сохраняя их в Git.
 
 **Как это делает HSM**:
 **Variable Interpolation**. HSM считывает значения из системного окружения или `.env` файла в момент синхронизации. В YAML-файлах реестра и проекта остаются только безопасные ссылки.
 
 **Примеры конфигураций**:
 
-1.  **Пакет (Neo4j Client)** (`registry/packages/neo4j-client.yaml`):
+1.  **Библиотека (Neo4j Client)** (`registry/libraries/neo4j-client.yaml`):
     ```yaml
     name: neo4j-client
     env:
@@ -269,7 +272,7 @@ HSM одновременно управляет и внешними связям
       NEO4J_PORT: "${NEO4J_PROD_PORT}"
     ```
 
-2.  **Сервис (Graph Builder)** (`registry/containers/graph-builder-service.yaml`):
+2.  **Сервис (Graph Builder)** (`registry/services/graph-builder-service.yaml`):
     ```yaml
     name: graph-builder-service
     deployment_profiles:
@@ -283,10 +286,12 @@ HSM одновременно управляет и внешними связям
 
 3.  **Манифест проекта** (`hsm.yaml`):
     ```yaml
-    packages:
-      - neo4j-client: prod
+    libraries:
+      standalone:
+        - name: neo4j-client
+          mode: prod
     services:
-      container_groups:
+      groups:
         graph-services:
           selection: graph-builder-service
           profile: managed-prod

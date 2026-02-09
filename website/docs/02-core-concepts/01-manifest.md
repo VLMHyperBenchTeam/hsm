@@ -18,26 +18,28 @@ project:
   name: "my-rag-platform"
   version: "0.1.0"
 
-dependencies:
+libraries:
   package_manager: "uv"
-  package_groups:
+  groups:
     # Group for vector database clients
     vector-db-client:
       strategy: "1-of-N"
       selection: "qdrant-adapter"
-      mode: "dev"
-  packages:
+  standalone:
     - name: "langchain"
-      version: ">=0.1.0"
       mode: "prod"
 
 services:
-  container_groups:
+  groups:
     # Group for vector database servers
     vector-db-server:
       strategy: "1-of-N"
       selection: "qdrant"
-      mode: "prod"
+  standalone: []
+
+modes:
+  qdrant-adapter: "dev"
+  qdrant: "prod"
 ```
 
 #### Работа с комментариями
@@ -47,16 +49,16 @@ HSM использует `ruamel.yaml` для сохранения коммен�
 Реестр (`hsm-registry/`) содержит базу знаний о доступных компонентах. В HSM на один проект полагается **ровно один реестр**.
 
 #### Типы компонентов:
-*   **Package**: Python-пакет (библиотека или сервис).
-*   **Container**: Docker-контейнер.
+*   **Library**: Python-библиотека.
+*   **Service**: Автономный сервис с поддержкой различных рантаймов (Docker, UV, Podman).
 *   **Group**: Логическое объединение (1-of-N или M-of-N) для выбора реализаций. Содержит поле `comment` для описания назначения группы.
 
 ## 2. Примеры компонентов (Vector DB)
 
-### 2.1. Группа выбора (`package_groups/vector-db-client.yaml`)
+### 2.1. Группа выбора (`library_groups/vector-db-client.yaml`)
 ```yaml
 name: "vector-db-client"
-type: "package_group"
+type: "library_group"
 strategy: "1-of-N"
 comment: "Group for vector database clients" # This will appear in hsm.yaml
 options:
@@ -66,7 +68,7 @@ options:
     description: "Client for Milvus"
 ```
 
-### 2.2. Манифест пакета (`packages/qdrant-adapter.yaml`)
+### 2.2. Манифест библиотеки (`libraries/qdrant-adapter.yaml`)
 ```yaml
 name: "qdrant-adapter"
 version: "1.0.0"
@@ -81,12 +83,11 @@ sources:
     editable: true
 ```
 
-### 2.3. Манифест контейнера (`containers/qdrant.yaml`)
+### 2.3. Манифест сервиса (`services/qdrant.yaml`)
 ```yaml
 name: "qdrant"
-type: "container"
-orchestration:
-  service_name: "vector-db" # Logical service name in compose
+type: "service"
+container_name: "vector-db" # Logical service name in compose
 sources:
   prod:
     type: "docker-image"
@@ -108,8 +109,9 @@ sources:
 3.  **Validation**: Проверка разрешимости зависимостей (через `uv lock` для Python).
 4.  **Materialization**:
     *   Обновление `pyproject.toml` (инъекция путей или git-ссылок).
-    *   Генерация `docker-compose.hsm.yml` (инъекция образов или build-контекстов).
-    *   Применение `container_name` и `alias` для выбранных контейнеров.
+    *   Генерация `docker-compose.hsm.yml` (для Docker/Podman рантаймов).
+    *   Инициализация и синхронизация изолированных venv (для UV рантайма).
+    *   Применение `container_name` и `alias` для выбранных сервисов.
 5.  **Execution**: Вызов системных команд (`uv sync`, `docker compose`).
 
 ### 3.2. Атомарность и Транзакционность

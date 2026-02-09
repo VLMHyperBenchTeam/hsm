@@ -1,30 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /**
  * Any CSS included here will be global. The classic template
  * bundles Infima by default. Infima is a CSS framework designed to
  * work well for content-centric websites.
  */
 
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-color-primary: #007acc; /* VS Code Light Primary */
+  --ifm-color-primary-dark: #006bb3;
+  --ifm-color-primary-darker: #0065a9;
+  --ifm-color-primary-darkest: #00538b;
+  --ifm-color-primary-light: #0089e5;
+  --ifm-color-primary-lighter: #0090f0;
+  --ifm-color-primary-lightest: #33a6ff;
+  --ifm-background-color: #ffffff;
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.05);
+  
+  /* VS Code Light Sidebar/Menu */
+  --ifm-menu-color-background-active: #e4e6f1;
+  --ifm-menu-color-background-hover: #f2f2f2;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-color-primary: #00FFCC;
+  --ifm-background-color: #1e1e1e; /* VS Code Dark Background */
+  --ifm-navbar-background-color: #252526; /* VS Code Sidebar/Header */
+  --ifm-footer-background-color: #252526;
+  --ifm-menu-color-background-active: #37373d;
+  --ifm-menu-color-background-hover: #2a2d2e;
+  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.1);
+}
+
+.cyber-border {
+    position: relative;
+    background: rgba(14, 17, 22, 0.9);
+    border: 1px solid rgba(0, 255, 204, 0.2);
+    clip-path: polygon(
+        0 15px, 15px 0,
+        calc(100% - 15px) 0, 100% 15px,
+        100% calc(100% - 15px), calc(100% - 15px) 100%,
+        15px 100%, 0 calc(100% - 15px)
+    );
+}
+
+.cyber-input {
+    @apply bg-black/40 border border-primary/20 text-primary p-3 focus:border-primary/60 outline-none transition-all placeholder:text-primary/30;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+}
+
+.neon-text-cyan { text-shadow: 0 0 10px rgba(0, 255, 204, 0.5); }
+.neon-text-lime { text-shadow: 0 0 10px rgba(218, 255, 0, 0.5); }
+.neon-glow-cyan { box-shadow: 0 0 15px rgba(0, 255, 204, 0.2); }
+
+.mask-gradient-v {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+}
+
+/* Navbar Customization */
+.navbar {
+  background-color: #0e1116 !important; /* Fixed dark color */
+  border-bottom: 1px solid #1e1e1e;
+  padding: 0.5rem 2rem;
+}
+
+.navbar__logo {
+  height: 2.2rem;
+  margin-right: 2rem;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+  transition: filter 0.3s ease;
+}
+
+.navbar__logo:hover {
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
+}
+
+.navbar__items {
+  gap: 2rem;
+}
+
+.navbar__link {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.7) !important;
+  text-transform: uppercase;
+  position: relative;
+  padding: 0.5rem 0;
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+  color: #00FFCC !important;
+  text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+}
+
+.navbar__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #00FFCC;
+  box-shadow: 0 0 12px #00FFCC;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.navbar__link:hover::after,
+.navbar__link--active::after {
+  transform: scaleX(1);
+}
+
+/* Hide default title next to logo if needed, or style it */
+.navbar__title {
+  display: none;
+}
+
+/* Theme Toggle Customization */
+.clean-btn {
+  color: rgba(255, 255, 255, 0.7) !important;
+  background-color: transparent !important;
+}
+
+.clean-btn:hover {
+  color: #00FFCC !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Mermaid Diagram Backgrounds */
+.mermaid {
+  background-color: #000000;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+[data-theme='light'] .mermaid {
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Footer Customization */
+.footer {
+  background-color: #0e1116 !important; /* Fixed dark color */
+  border-top: 1px solid #1e1e1e;
+  padding: 1.5rem 2rem;
+}
+
+.footer__title {
+  font-family: 'Orbitron', sans-serif;
+  color: #00FFCC !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.footer__link-item {
+  font-family: 'JetBrains Mono', monospace;
+  color: rgba(255, 255, 255, 0.6) !important;
+  transition: color 0.3s ease;
+}
+
+.footer__link-item:hover {
+  color: #00FFCC !important;
+  text-decoration: none;
+}
+
+.footer__copyright {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 2rem;
 }

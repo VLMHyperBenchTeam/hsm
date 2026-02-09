@@ -62,6 +62,12 @@ const config: Config = {
   ],
 
   themeConfig: {
+    mermaid: {
+      theme: {
+        light: 'dark',
+        dark: 'dark',
+      },
+    },
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
@@ -75,38 +81,24 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Документация',
+          label: 'Docs',
         },
         {
           href: 'https://github.com/VLMHyperBenchTeam/hsm',
-          label: 'GitHub',
-          position: 'right',
+          label: 'Github',
+          position: 'left',
+        },
+        {
+          href: '#',
+          label: 'Community',
+          position: 'left',
         },
       ],
     },
     footer: {
       style: 'dark',
-      links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Введение',
-              to: '/docs/intro',
-            },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'GitHub',
-              href: 'https://github.com/VLMHyperBenchTeam/hsm',
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} VLMHyperBenchTeam. Built with Docusaurus.`,
+      links: [],
+      copyright: `Copyright © ${new Date().getFullYear()} HyperTeam. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

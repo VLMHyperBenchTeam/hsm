@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Hyper Stack Manager',
   tagline: 'Environment Hypervisor for Modern Hybrid Stacks',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/logo-v2.svg',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   // future: {

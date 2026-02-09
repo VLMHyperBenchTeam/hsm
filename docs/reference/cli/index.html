@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="ru" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-reference/cli" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">HSM CLI Reference | Hyper Stack Manager</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://VLMHyperBenchTeam.github.io/hsm/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://VLMHyperBenchTeam.github.io/hsm/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://VLMHyperBenchTeam.github.io/hsm/docs/reference/cli"><meta data-rh="true" property="og:locale" content="ru"><meta data-rh="true" name="docusaurus_locale" content="ru"><meta data-rh="true" name="docsearch:language" content="ru"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="HSM CLI Reference | Hyper Stack Manager"><meta data-rh="true" name="description" content="Полное руководство по командам интерфейса командной строки Hyper Stack Manager (hsm)."><meta data-rh="true" property="og:description" content="Полное руководство по командам интерфейса командной строки Hyper Stack Manager (hsm)."><link data-rh="true" rel="icon" href="/hsm/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://VLMHyperBenchTeam.github.io/hsm/docs/reference/cli"><link data-rh="true" rel="alternate" href="https://VLMHyperBenchTeam.github.io/hsm/docs/reference/cli" hreflang="ru"><link data-rh="true" rel="alternate" href="https://VLMHyperBenchTeam.github.io/hsm/docs/reference/cli" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"🛠 Справочник","item":"https://VLMHyperBenchTeam.github.io/hsm/docs/category/-справочник"},{"@type":"ListItem","position":2,"name":"HSM CLI Reference","item":"https://VLMHyperBenchTeam.github.io/hsm/docs/reference/cli"}]}</script><link rel="stylesheet" href="/hsm/assets/css/styles.d00dfb53.css">
+<script src="/hsm/assets/js/runtime~main.f6537102.js" defer="defer"></script>
+<script src="/hsm/assets/js/main.7eb628eb.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||"light"),document.documentElement.setAttribute("data-theme-choice",t||"light")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/hsm/img/logo.svg"><div role="region" aria-label="Перейти к основному содержимому"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Перейти к основному содержимому</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Переключить навигационную панель" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/hsm/"><div class="navbar__logo"><img src="/hsm/img/logo.svg" alt="HSM Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/hsm/img/logo.svg" alt="HSM Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">HSM</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/hsm/docs/intro">Docs</a><a href="https://github.com/VLMHyperBenchTeam/hsm" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">Github<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><a href="#" class="navbar__item navbar__link">Community</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Переключение между темным и светлым режимом (сейчас используется system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Прокрутка к началу" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/hsm/docs/intro"><span title="Введение в Hyper Stack Manager (hsm)" class="linkLabel_WmDU">Введение в Hyper Stack Manager (hsm)</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/hsm/docs/category/-быстрый-старт"><span title="🚀 Быстрый старт" class="categoryLinkLabel_W154">🚀 Быстрый старт</span></a><button aria-label="Expand sidebar category &#x27;🚀 Быстрый старт&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/hsm/docs/category/-основные-концепции"><span title="💡 Основные концепции" class="categoryLinkLabel_W154">💡 Основные концепции</span></a><button aria-label="Expand sidebar category &#x27;💡 Основные концепции&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/hsm/docs/category/-руководства"><span title="📖 Руководства" class="categoryLinkLabel_W154">📖 Руководства</span></a><button aria-label="Expand sidebar category &#x27;📖 Руководства&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" href="/hsm/docs/category/-справочник"><span title="🛠 Справочник" class="categoryLinkLabel_W154">🛠 Справочник</span></a><button aria-label="Collapse sidebar category &#x27;🛠 Справочник&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/hsm/docs/reference/cli"><span title="HSM CLI Reference" class="linkLabel_WmDU">HSM CLI Reference</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/hsm/docs/category/-архитектура"><span title="🏗 Архитектура" class="categoryLinkLabel_W154">🏗 Архитектура</span></a><button aria-label="Expand sidebar category &#x27;🏗 Архитектура&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/hsm/docs/comparisons"><span title="Аналитическое сравнение HSM с существующими инструментами" class="linkLabel_WmDU">Аналитическое сравнение HSM с существующими инструментами</span></a></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Навигационная цепочка текущей страницы"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Главная страница" class="breadcrumbs__link" href="/hsm/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/hsm/docs/category/-справочник"><span>🛠 Справочник</span></a></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">HSM CLI Reference</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">Содержание этой страницы</button></div><div class="theme-doc-markdown markdown"><header><h1>HSM CLI Reference</h1></header>
+<p>Полное руководство по командам интерфейса командной строки <strong>Hyper Stack Manager (hsm)</strong>.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="принципы-дизайна">Принципы дизайна<a href="#принципы-дизайна" class="hash-link" aria-label="Прямая ссылка на Принципы дизайна" title="Прямая ссылка на Принципы дизайна" translate="no">​</a></h2>
+<p>HSM CLI следует современным практикам проектирования (2026):</p>
+<ol>
+<li class=""><strong>Noun-Verb иерархия</strong>: Команды сгруппированы вокруг объектов (<code>library</code>, <code>service</code>, <code>group</code>, <code>registry</code>). Это обеспечивает предсказуемость и удобное автодополнение. Подробнее о принципе: <a href="https://clig.dev/#subcommands" target="_blank" rel="noopener noreferrer" class="">Command Line Interface Guidelines</a>.</li>
+<li class=""><strong>Interactive + Flags</strong>: Мы поддерживаем два равноправных способа взаимодействия:<!-- -->
+<ul>
+<li class=""><strong>Интерактивный (Wizard)</strong>: Для разработчиков людей. Если запустить команду без аргументов, HSM проведет вас через пошаговый мастер.</li>
+<li class=""><strong>Флаги (Automation)</strong>: Для систем автоматизации, CI и LLM-ассистентов.
+Все параметры можно передать через флаги, что идеально для CI/CD пайплайнов и работе в партнерстве с LLM-агентами.</li>
+</ul>
+</li>
+<li class=""><strong>Симметрия с сокращениями</strong>: Интерфейсы управления Проектом (<code>hsm ...</code>) и Реестром (<code>hsm registry ...</code>) зеркальны.
+Однако, так как с проектом мы работаем 90% времени, префикс <code>project</code> опускается (аналогично тому, как <code>uv sync</code> работает с текущим проектом).</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="помощь-и-документация">Помощь и документация<a href="#помощь-и-документация" class="hash-link" aria-label="Прямая ссылка на Помощь и документация" title="Прямая ссылка на Помощь и документация" translate="no">​</a></h2>
+<p>Любая команда или подкоманда поддерживает флаг <code>--help</code>, который выводит подробное описание доступных аргументов и опций.</p>
+<p>Пример:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">hsm --help</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">hsm registry library add --help</span><br></span></code></pre></div></div>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="автодополнение-shell-completion">Автодополнение (Shell Completion)<a href="#автодополнение-shell-completion" class="hash-link" aria-label="Прямая ссылка на Автодополнение (Shell Completion)" title="Прямая ссылка на Автодополнение (Shell Completion)" translate="no">​</a></h2>
+<p>HSM поддерживает автодополнение команд для Bash, Zsh и Fish.</p>
+<ul>
+<li class=""><code>--install-completion</code>: Установить скрипт автодополнения для текущей оболочки.</li>
+<li class=""><code>--show-completion</code>: Вывести скрипт автодополнения в терминал (для ручной настройки).</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-управление-проектом-project-management">1. Управление Проектом (Project Management)<a href="#1-управление-проектом-project-management" class="hash-link" aria-label="Прямая ссылка на 1. Управление Проектом (Project Management)" title="Прямая ссылка на 1. Управление Проектом (Project Management)" translate="no">​</a></h2>
+<p>Команды для работы с текущим проектом и файлом <code>hsm.yaml</code>. Используются сокращенные алиасы для частого доступа.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="общие-команды">Общие команды<a href="#общие-команды" class="hash-link" aria-label="Прямая ссылка на Общие команды" title="Прямая ссылка на Общие команды" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-init"><code>hsm init</code><a href="#hsm-init" class="hash-link" aria-label="Прямая ссылка на hsm-init" title="Прямая ссылка на hsm-init" translate="no">​</a></h4>
+<p>Инициализирует новый HSM-проект в текущей директории.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>--name</code>, <code>-n</code> (Optional): Имя проекта.</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-sync"><code>hsm sync</code><a href="#hsm-sync" class="hash-link" aria-label="Прямая ссылка на hsm-sync" title="Прямая ссылка на hsm-sync" translate="no">​</a></h4>
+<p>Синхронизирует состояние проекта с манифестом <code>hsm.yaml</code>. Аналог <code>uv sync</code>, но для всего стека (Python + Docker + VES).</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>--frozen</code> (Optional): Использовать lock-файлы без обновления зависимостей.</li>
+<li class=""><code>--verify / --no-verify</code> (Optional): Верифицировать окружение после синхронизации (по умолчанию включено).</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-list"><code>hsm list</code><a href="#hsm-list" class="hash-link" aria-label="Прямая ссылка на hsm-list" title="Прямая ссылка на hsm-list" translate="no">​</a></h4>
+<p>Отображает текущий состав стека проекта (дерево зависимостей).</p>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-check"><code>hsm check</code><a href="#hsm-check" class="hash-link" aria-label="Прямая ссылка на hsm-check" title="Прямая ссылка на hsm-check" translate="no">​</a></h4>
+<p>Выполняет полную валидацию текущего проекта и реестра без внесения изменений. Это &quot;сухой прогон&quot; (dry-run) перед синхронизацией.</p>
+<ul>
+<li class=""><strong>Критерии проверки</strong>:<!-- -->
+<ul>
+<li class="">Наличие и синтаксис <code>hsm.yaml</code>.</li>
+<li class="">Наличие всех компонентов в реестре.</li>
+<li class="">Отсутствие конфликтов в группах и <code>implies</code>.</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-mode"><code>hsm mode</code><a href="#hsm-mode" class="hash-link" aria-label="Прямая ссылка на hsm-mode" title="Прямая ссылка на hsm-mode" translate="no">​</a></h4>
+<p>Глобальное переключение режима для всех компонентов в проекте.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>MODE</code> (Required): Режим (<code>dev</code> или <code>prod</code>).</li>
+</ul>
+</li>
+<li class=""><strong>Пример</strong>: <code>hsm mode dev</code> (переводит все компоненты на локальные исходники).</li>
+<li class=""><strong>Зачем это нужно</strong>: Позволяет одной командой перевести весь проект в режим разработки (для старта спринта) или в режим продакшена (для проверки сборки), предотвращая &quot;дрейф конфигурации&quot;.</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-python-manager-set"><code>hsm python-manager set</code><a href="#hsm-python-manager-set" class="hash-link" aria-label="Прямая ссылка на hsm-python-manager-set" title="Прямая ссылка на hsm-python-manager-set" translate="no">​</a></h4>
+<p>Выбирает менеджер пакетов для Python.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>MANAGER</code> (Required): Имя менеджера (сейчас поддерживается только <code>uv</code>, в будущем планируется <code>pixi</code>, <code>pip</code>).</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-container-manager-set-future"><code>hsm container-manager set</code> (Future)<a href="#hsm-container-manager-set-future" class="hash-link" aria-label="Прямая ссылка на hsm-container-manager-set-future" title="Прямая ссылка на hsm-container-manager-set-future" translate="no">​</a></h4>
+<p>Выбирает рантайм для контейнеров (например, <code>docker</code> или <code>podman</code>).</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="управление-сервисами-hsm-service-">Управление Сервисами (<code>hsm service ...</code>)<a href="#управление-сервисами-hsm-service-" class="hash-link" aria-label="Прямая ссылка на управление-сервисами-hsm-service-" title="Прямая ссылка на управление-сервисами-hsm-service-" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-service-add"><code>hsm service add</code><a href="#hsm-service-add" class="hash-link" aria-label="Прямая ссылка на hsm-service-add" title="Прямая ссылка на hsm-service-add" translate="no">​</a></h4>
+<p>Добавляет сервис в <code>hsm.yaml</code>.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>NAME</code> (Required): Имя сервиса.</li>
+<li class=""><code>--group</code>, <code>-g</code> (Optional): Добавить как опцию в существующую группу сервисов.</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-service-remove"><code>hsm service remove</code><a href="#hsm-service-remove" class="hash-link" aria-label="Прямая ссылка на hsm-service-remove" title="Прямая ссылка на hsm-service-remove" translate="no">​</a></h4>
+<p>Удаляет сервис из <code>hsm.yaml</code>.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>NAME</code> (Required): Имя сервиса.</li>
+<li class=""><code>--group</code>, <code>-g</code> (Optional): Удалить из конкретной группы.</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-service-mode"><code>hsm service mode</code><a href="#hsm-service-mode" class="hash-link" aria-label="Прямая ссылка на hsm-service-mode" title="Прямая ссылка на hsm-service-mode" translate="no">​</a></h4>
+<p>Атомарное переключение режима для конкретного сервиса.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>NAME</code> (Required): Имя сервиса.</li>
+<li class=""><code>MODE</code> (Required): Режим (<code>dev</code> или <code>prod</code>).</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-service-init"><code>hsm service init</code><a href="#hsm-service-init" class="hash-link" aria-label="Прямая ссылка на hsm-service-init" title="Прямая ссылка на hsm-service-init" translate="no">​</a></h4>
+<p>Инициализирует новый сервис в директории проекта.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>NAME</code> (Required): Имя сервиса.</li>
+<li class=""><code>--runtime</code>, <code>-r</code> (Optional): Рантайм сервиса (<code>uv</code>, <code>docker</code>, <code>podman</code>). По умолчанию <code>uv</code>.</li>
+<li class=""><code>--path</code>, <code>-p</code> (Optional): Путь к сервису (по умолчанию <code>./services/&lt;name&gt;</code>).</li>
+<li class=""><code>--register / --no-register</code> (Optional): Автоматически добавить в реестр (по умолчанию включено).</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="управление-библиотеками-hsm-library-">Управление Библиотеками (<code>hsm library ...</code>)<a href="#управление-библиотеками-hsm-library-" class="hash-link" aria-label="Прямая ссылка на управление-библиотеками-hsm-library-" title="Прямая ссылка на управление-библиотеками-hsm-library-" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-library-add"><code>hsm library add</code><a href="#hsm-library-add" class="hash-link" aria-label="Прямая ссылка на hsm-library-add" title="Прямая ссылка на hsm-library-add" translate="no">​</a></h4>
+<p>Добавляет библиотеку в <code>hsm.yaml</code>.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>NAME</code> (Required): Имя библиотеки.</li>
+<li class=""><code>--group</code>, <code>-g</code> (Optional): Добавить как опцию в существующую группу.</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-library-remove"><code>hsm library remove</code><a href="#hsm-library-remove" class="hash-link" aria-label="Прямая ссылка на hsm-library-remove" title="Прямая ссылка на hsm-library-remove" translate="no">​</a></h4>
+<p>Удаляет библиотеку из <code>hsm.yaml</code>.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>NAME</code> (Required): Имя библиотеки.</li>
+<li class=""><code>--group</code>, <code>-g</code> (Optional): Удалить из конкретной группы.</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-library-init"><code>hsm library init</code><a href="#hsm-library-init" class="hash-link" aria-label="Прямая ссылка на hsm-library-init" title="Прямая ссылка на hsm-library-init" translate="no">​</a></h4>
+<p>Инициализирует новую Python-библиотеку в директории проекта и автоматически регистрирует ее в локальном реестре.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>NAME</code> (Required): Имя библиотеки.</li>
+<li class=""><code>--path</code>, <code>-p</code> (Optional): Путь к библиотеке (по умолчанию <code>./packages/&lt;name&gt;</code>).</li>
+<li class=""><code>--register / --no-register</code> (Optional): Автоматически добавить в реестр (по умолчанию включено).</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-library-mode"><code>hsm library mode</code><a href="#hsm-library-mode" class="hash-link" aria-label="Прямая ссылка на hsm-library-mode" title="Прямая ссылка на hsm-library-mode" translate="no">​</a></h4>
+<p>Атомарное переключение режима для конкретной библиотеки.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>NAME</code> (Required): Имя библиотеки.</li>
+<li class=""><code>MODE</code> (Required): Режим (<code>dev</code> или <code>prod</code>).</li>
+</ul>
+</li>
+<li class=""><strong>Зачем это нужно</strong>: Можно собрать окружение из любых компонентов как dev так и prod еализации.</li>
+</ul>
+<p>Это дает точечный контроль для отладки конкретных компонентов в системе, не затрагивая стабильность остальных компонентов.</p>
+<p>Напрмер, когда нужно сделать фикс в коде затрагивающим сразу 3 компонента системы, а остальные оставить в режиме prod.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="управление-группами-hsm-group-">Управление Группами (<code>hsm group ...</code>)<a href="#управление-группами-hsm-group-" class="hash-link" aria-label="Прямая ссылка на управление-группами-hsm-group-" title="Прямая ссылка на управление-группами-hsm-group-" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-group-add"><code>hsm group add</code><a href="#hsm-group-add" class="hash-link" aria-label="Прямая ссылка на hsm-group-add" title="Прямая ссылка на hsm-group-add" translate="no">​</a></h4>
+<p>Добавляет новую группу в <code>hsm.yaml</code>.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>NAME</code> (Required): Имя группы.</li>
+<li class=""><code>--option</code>, <code>-o</code> (Required): Имя пакета-опции.</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-group-remove"><code>hsm group remove</code><a href="#hsm-group-remove" class="hash-link" aria-label="Прямая ссылка на hsm-group-remove" title="Прямая ссылка на hsm-group-remove" translate="no">​</a></h4>
+<p>Удаляет группу целиком из <code>hsm.yaml</code>.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>NAME</code> (Required): Имя группы.</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-group-add-option"><code>hsm group add-option</code><a href="#hsm-group-add-option" class="hash-link" aria-label="Прямая ссылка на hsm-group-add-option" title="Прямая ссылка на hsm-group-add-option" translate="no">​</a></h4>
+<p>Добавляет или устанавливает вариант выбора (опцию) в существующую группу в манифесте.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>GROUP</code> (Required): Имя группы.</li>
+<li class=""><code>OPTION</code> (Required): Имя компонента-опции.</li>
+</ul>
+</li>
+<li class=""><strong>Поведение</strong>:<!-- -->
+<ul>
+<li class="">Для стратегии <strong>1-of-N</strong>: Заменяет текущий выбор на указанную опцию (например, смена <code>qdrant</code> на <code>milvus</code>).</li>
+<li class="">Для стратегии <strong>M-of-N</strong>: Добавляет опцию к списку выбранных.</li>
+<li class=""><strong>Implies (Автоматические зависимости)</strong>: Если выбранная опция имеет поле <code>implies</code> в реестре (например, клиент БД требует сервис БД), HSM автоматически добавит или предложит добавить соответствующие зависимости в другие группы.</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-group-remove-option"><code>hsm group remove-option</code><a href="#hsm-group-remove-option" class="hash-link" aria-label="Прямая ссылка на hsm-group-remove-option" title="Прямая ссылка на hsm-group-remove-option" translate="no">​</a></h4>
+<p>Удаляет вариант выбора из группы в манифесте.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>GROUP</code> (Required): Имя группы.</li>
+<li class=""><code>OPTION</code> (Required): Имя компонента-опции.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-управление-реестром-hsm-registry-">2. Управление Реестром (<code>hsm registry ...</code>)<a href="#2-управление-реестром-hsm-registry-" class="hash-link" aria-label="Прямая ссылка на 2-управление-реестром-hsm-registry-" title="Прямая ссылка на 2-управление-реестром-hsm-registry-" translate="no">​</a></h2>
+<p>Команды для управления глобальным реестром компонентов (<code>hsm-registry/</code>).</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="поиск-и-просмотр">Поиск и Просмотр<a href="#поиск-и-просмотр" class="hash-link" aria-label="Прямая ссылка на Поиск и Просмотр" title="Прямая ссылка на Поиск и Просмотр" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-registry-search"><code>hsm registry search</code><a href="#hsm-registry-search" class="hash-link" aria-label="Прямая ссылка на hsm-registry-search" title="Прямая ссылка на hsm-registry-search" translate="no">​</a></h4>
+<p>Поиск компонентов в реестре.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>: <code>QUERY</code> (Required).</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-registry-list"><code>hsm registry list</code><a href="#hsm-registry-list" class="hash-link" aria-label="Прямая ссылка на hsm-registry-list" title="Прямая ссылка на hsm-registry-list" translate="no">​</a></h4>
+<p>Выводит список всех доступных компонентов.</p>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-registry-show"><code>hsm registry show</code><a href="#hsm-registry-show" class="hash-link" aria-label="Прямая ссылка на hsm-registry-show" title="Прямая ссылка на hsm-registry-show" translate="no">​</a></h4>
+<p>Показывает детальную информацию о компоненте.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>: <code>NAME</code> (Required).</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-registry-path-set"><code>hsm registry path set</code><a href="#hsm-registry-path-set" class="hash-link" aria-label="Прямая ссылка на hsm-registry-path-set" title="Прямая ссылка на hsm-registry-path-set" translate="no">​</a></h4>
+<p>Устанавливает путь к директории реестра (по умолчанию <code>./hsm-registry</code>).</p>
+<ul>
+<li class=""><strong>Аргументы</strong>: <code>PATH</code> (Required).</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="управление-библиотеками-hsm-registry-library-">Управление Библиотеками (<code>hsm registry library ...</code>)<a href="#управление-библиотеками-hsm-registry-library-" class="hash-link" aria-label="Прямая ссылка на управление-библиотеками-hsm-registry-library-" title="Прямая ссылка на управление-библиотеками-hsm-registry-library-" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-registry-library-add"><code>hsm registry library add</code><a href="#hsm-registry-library-add" class="hash-link" aria-label="Прямая ссылка на hsm-registry-library-add" title="Прямая ссылка на hsm-registry-library-add" translate="no">​</a></h4>
+<p>Добавляет новую библиотеку в реестр.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>: <code>NAME</code> (Optional), <code>--version</code>, <code>--description</code>, <code>--prod-type</code>, <code>--prod-url</code>, <code>--dev-path</code>.</li>
+<li class=""><strong>Интерактивность</strong>: Если аргументы не указаны, запускается мастер.</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-registry-library-remove"><code>hsm registry library remove</code><a href="#hsm-registry-library-remove" class="hash-link" aria-label="Прямая ссылка на hsm-registry-library-remove" title="Прямая ссылка на hsm-registry-library-remove" translate="no">​</a></h4>
+<p>Удаляет библиотеку из реестра.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>NAME</code> (Required): Имя библиотеки.</li>
+<li class=""><code>--yes</code>, <code>-y</code> (Optional): Подтвердить удаление без запроса (для скриптов).</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="управление-группами-hsm-registry-group-">Управление Группами (<code>hsm registry group ...</code>)<a href="#управление-группами-hsm-registry-group-" class="hash-link" aria-label="Прямая ссылка на управление-группами-hsm-registry-group-" title="Прямая ссылка на управление-группами-hsm-registry-group-" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-registry-group-add"><code>hsm registry group add</code><a href="#hsm-registry-group-add" class="hash-link" aria-label="Прямая ссылка на hsm-registry-group-add" title="Прямая ссылка на hsm-registry-group-add" translate="no">​</a></h4>
+<p>Создает новую группу в реестре.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>: <code>NAME</code>, <code>--type</code>, <code>--strategy</code>, <code>--option</code> (multiple), <code>--description</code>.</li>
+<li class=""><strong>Implies</strong>: Для настройки зависимостей (<code>implies</code>) между опциями используйте редактирование YAML файла группы после создания, так как это сложная структура для CLI аргументов.</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-registry-group-remove"><code>hsm registry group remove</code><a href="#hsm-registry-group-remove" class="hash-link" aria-label="Прямая ссылка на hsm-registry-group-remove" title="Прямая ссылка на hsm-registry-group-remove" translate="no">​</a></h4>
+<p>Удаляет группу из реестра.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>: <code>NAME</code>, <code>--yes</code>, <code>-y</code>.</li>
+<li class=""><strong>Безопасность</strong>: Сборка реестра — трудоемкий процесс, поэтому удаление требует подтверждения.<!-- -->
+<ul>
+<li class=""><strong>Интерактивный режим</strong>: Запрашивает подтверждение у пользователя (&quot;Are you sure? [y/N]&quot;).</li>
+<li class=""><strong>Автоматизация</strong>: Флаг <code>--yes</code> позволяет LLM-агентам и CI-скриптам выполнять удаление без зависания на ожидании ввода.</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-registry-group-add-option"><code>hsm registry group add-option</code><a href="#hsm-registry-group-add-option" class="hash-link" aria-label="Прямая ссылка на hsm-registry-group-add-option" title="Прямая ссылка на hsm-registry-group-add-option" translate="no">​</a></h4>
+<p>Добавляет новую доступную опцию в определение группы в реестре.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>GROUP</code> (Required): Имя группы.</li>
+<li class=""><code>OPTION</code> (Required): Имя библиотеки.</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-registry-group-remove-option"><code>hsm registry group remove-option</code><a href="#hsm-registry-group-remove-option" class="hash-link" aria-label="Прямая ссылка на hsm-registry-group-remove-option" title="Прямая ссылка на hsm-registry-group-remove-option" translate="no">​</a></h4>
+<p>Удаляет доступную опцию из определения группы в реестре.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>GROUP</code> (Required): Имя группы.</li>
+<li class=""><code>OPTION</code> (Required): Имя библиотеки.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="управление-сервисами-hsm-registry-service-">Управление Сервисами (<code>hsm registry service ...</code>)<a href="#управление-сервисами-hsm-registry-service-" class="hash-link" aria-label="Прямая ссылка на управление-сервисами-hsm-registry-service-" title="Прямая ссылка на управление-сервисами-hsm-registry-service-" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-registry-service-add"><code>hsm registry service add</code><a href="#hsm-registry-service-add" class="hash-link" aria-label="Прямая ссылка на hsm-registry-service-add" title="Прямая ссылка на hsm-registry-service-add" translate="no">​</a></h4>
+<p>Добавляет описание сервиса в реестр.</p>
+<p><strong>Общие аргументы:</strong></p>
+<ul>
+<li class=""><code>NAME</code> (Required): Имя сервиса (например, <code>qdrant</code>).</li>
+<li class=""><code>--runtime</code>, <code>-rt</code> (Optional): Рантайм сервиса (<code>docker</code>, <code>uv</code>, <code>podman</code>). По умолчанию <code>docker</code>.</li>
+<li class=""><code>--dependency</code>, <code>-dep</code> (Optional, Multiple): Зависимости сервиса (другие библиотеки или сервисы).</li>
+<li class=""><code>--container-name</code> (Optional): Явное имя контейнера (например, <code>qdrant-instance</code>).</li>
+<li class=""><code>--network-alias</code> (Optional, Multiple): Сетевые алиасы (например, <code>vector-db</code>).</li>
+<li class=""><code>--description</code>, <code>-d</code> (Optional): Описание сервиса.</li>
+<li class=""><code>--env</code>, <code>-e</code> (Optional, Multiple): Общие переменные окружения (например, <code>TZ=UTC</code>).</li>
+<li class=""><code>--no-input</code> (Optional): Отключить интерактивный режим.</li>
+</ul>
+<p><strong>Production (Stable) аргументы:</strong></p>
+<ul>
+<li class=""><code>--image</code> (Optional): Docker image для Prod-режима (например, <code>qdrant/qdrant:latest</code>).</li>
+<li class=""><code>--prod-container-name</code> (Optional): Имя контейнера только для Prod.</li>
+<li class=""><code>--prod-network-alias</code> (Optional, Multiple): Алиасы только для Prod.</li>
+<li class=""><code>--prod-port</code> (Optional, Multiple): Порты только для Prod (например, <code>80:80</code>).</li>
+<li class=""><code>--prod-volume</code> (Optional, Multiple): Тома только для Prod (например, <code>qdrant_data:/data</code>).</li>
+<li class=""><code>--prod-env</code> (Optional, Multiple): Env только для Prod.</li>
+</ul>
+<p><strong>Development (Local) аргументы:</strong></p>
+<ul>
+<li class=""><code>--build-path</code> (Optional): Путь к контексту сборки для Dev-режима (например, <code>./docker/qdrant</code>).</li>
+<li class=""><code>--dockerfile</code> (Optional): Имя Dockerfile, если отличается от стандартного (по умолчанию <code>Dockerfile</code>).</li>
+<li class=""><code>--dev-image</code> (Optional): Docker image для Dev-режима (если не используется сборка).</li>
+<li class=""><code>--dev-container-name</code> (Optional): Имя контейнера только для Dev.</li>
+<li class=""><code>--dev-network-alias</code> (Optional, Multiple): Алиасы только для Dev.</li>
+<li class=""><code>--dev-port</code> (Optional, Multiple): Порты для Dev (например, <code>6333:6333</code> для отладки).</li>
+<li class=""><code>--dev-volume</code> (Optional, Multiple): Тома для Dev (например, <code>./data:/data</code> для hot-reload).</li>
+<li class=""><code>--dev-env</code> (Optional, Multiple): Env для Dev.</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="hsm-registry-service-remove"><code>hsm registry service remove</code><a href="#hsm-registry-service-remove" class="hash-link" aria-label="Прямая ссылка на hsm-registry-service-remove" title="Прямая ссылка на hsm-registry-service-remove" translate="no">​</a></h4>
+<p>Удаляет сервис из реестра.</p>
+<ul>
+<li class=""><strong>Аргументы</strong>:<!-- -->
+<ul>
+<li class=""><code>NAME</code> (Required): Имя сервиса.</li>
+<li class=""><code>--yes</code>, <code>-y</code> (Optional): Подтвердить удаление без запроса.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="сводная-таблица-симметрии">Сводная таблица симметрии<a href="#сводная-таблица-симметрии" class="hash-link" aria-label="Прямая ссылка на Сводная таблица симметрии" title="Прямая ссылка на Сводная таблица симметрии" translate="no">​</a></h2>
+<table><thead><tr><th style="text-align:left">Действие</th><th style="text-align:left">Проект (<code>hsm ...</code>)</th><th style="text-align:left">Реестр (<code>hsm registry ...</code>)</th></tr></thead><tbody><tr><td style="text-align:left"><strong>Добавить библиотеку</strong></td><td style="text-align:left"><code>library add</code></td><td style="text-align:left"><code>library add</code></td></tr><tr><td style="text-align:left"><strong>Удалить библиотеку</strong></td><td style="text-align:left"><code>library remove</code></td><td style="text-align:left"><code>library remove</code></td></tr><tr><td style="text-align:left"><strong>Добавить группу</strong></td><td style="text-align:left"><code>group add</code></td><td style="text-align:left"><code>group add</code></td></tr><tr><td style="text-align:left"><strong>Удалить группу</strong></td><td style="text-align:left"><code>group remove</code></td><td style="text-align:left"><code>group remove</code></td></tr><tr><td style="text-align:left"><strong>Добавить опцию</strong></td><td style="text-align:left"><code>group add-option</code></td><td style="text-align:left"><code>group add-option</code></td></tr><tr><td style="text-align:left"><strong>Удалить опцию</strong></td><td style="text-align:left"><code>group remove-option</code></td><td style="text-align:left"><code>group remove-option</code></td></tr><tr><td style="text-align:left"><strong>Режим</strong></td><td style="text-align:left"><code>mode</code>, <code>library mode</code>, <code>service mode</code></td><td style="text-align:left">—</td></tr><tr><td style="text-align:left"><strong>Добавить сервис</strong></td><td style="text-align:left"><code>service add</code></td><td style="text-align:left"><code>service add</code></td></tr><tr><td style="text-align:left"><strong>Удалить сервис</strong></td><td style="text-align:left"><code>service remove</code></td><td style="text-align:left"><code>service remove</code></td></tr></tbody></table></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/VLMHyperBenchTeam/hsm/tree/main/hsm/website/docs/05-reference/cli.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Отредактировать эту страницу</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Страница документа"><a class="pagination-nav__link pagination-nav__link--prev" href="/hsm/docs/category/-справочник"><div class="pagination-nav__sublabel">Предыдущая страница</div><div class="pagination-nav__label">🛠 Справочник</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/hsm/docs/category/-архитектура"><div class="pagination-nav__sublabel">Следующая страница</div><div class="pagination-nav__label">🏗 Архитектура</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#принципы-дизайна" class="table-of-contents__link toc-highlight">Принципы дизайна</a></li><li><a href="#помощь-и-документация" class="table-of-contents__link toc-highlight">Помощь и документация</a></li><li><a href="#автодополнение-shell-completion" class="table-of-contents__link toc-highlight">Автодополнение (Shell Completion)</a></li><li><a href="#1-управление-проектом-project-management" class="table-of-contents__link toc-highlight">1. Управление Проектом (Project Management)</a><ul><li><a href="#общие-команды" class="table-of-contents__link toc-highlight">Общие команды</a></li><li><a href="#управление-сервисами-hsm-service-" class="table-of-contents__link toc-highlight">Управление Сервисами (<code>hsm service ...</code>)</a></li><li><a href="#управление-библиотеками-hsm-library-" class="table-of-contents__link toc-highlight">Управление Библиотеками (<code>hsm library ...</code>)</a></li><li><a href="#управление-группами-hsm-group-" class="table-of-contents__link toc-highlight">Управление Группами (<code>hsm group ...</code>)</a></li></ul></li><li><a href="#2-управление-реестром-hsm-registry-" class="table-of-contents__link toc-highlight">2. Управление Реестром (<code>hsm registry ...</code>)</a><ul><li><a href="#поиск-и-просмотр" class="table-of-contents__link toc-highlight">Поиск и Просмотр</a></li><li><a href="#управление-библиотеками-hsm-registry-library-" class="table-of-contents__link toc-highlight">Управление Библиотеками (<code>hsm registry library ...</code>)</a></li><li><a href="#управление-группами-hsm-registry-group-" class="table-of-contents__link toc-highlight">Управление Группами (<code>hsm registry group ...</code>)</a></li><li><a href="#управление-сервисами-hsm-registry-service-" class="table-of-contents__link toc-highlight">Управление Сервисами (<code>hsm registry service ...</code>)</a></li></ul></li><li><a href="#сводная-таблица-симметрии" class="table-of-contents__link toc-highlight">Сводная таблица симметрии</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 HyperTeam. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -6,12 +6,18 @@ import NeuralBackground from '@site/src/components/NeuralBackground';
 
 export default function Home(): React.JSX.Element {
   const {siteConfig} = useDocusaurusContext();
+
+  useEffect(() => {
+    document.documentElement.classList.add('home-page-active');
+    return () => document.documentElement.classList.remove('home-page-active');
+  }, []);
   
   return (
     <Layout
       title={siteConfig.title}
       description={siteConfig.tagline}
-      noFooter={true}>
+      noFooter={true}
+      wrapperClassName="home-page">
       <NeuralBackground />
       
       <div className="relative z-40 w-full min-h-screen flex flex-col items-center justify-center p-4 md:p-12 pt-24">

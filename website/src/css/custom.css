@@ -152,6 +152,14 @@
   background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
+/* Hide theme toggle on home page */
+.home-page-active [class*='colorModeToggle'],
+.home-page-active .navbar__items > div:last-child,
+.home-page-active .navbar__item.clean-btn,
+.home-page-active button[class*='clean-btn'] {
+  display: none !important;
+}
+
 /* Mermaid Diagram Backgrounds */
 .mermaid {
   background-color: #000000;

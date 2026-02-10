@@ -197,3 +197,30 @@
   color: rgba(255, 255, 255, 0.4);
   margin-top: 2rem;
 }
+
+/* Custom Scrollbar for Cyberpunk Theme (Fixed) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0e1116 !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e1e1e !important;
+  border: 1px solid rgba(0, 255, 204, 0.1);
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2a2d2e !important;
+  border-color: rgba(0, 255, 204, 0.3);
+}
+
+/* Firefox support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1e1e1e #0e1116;
+}

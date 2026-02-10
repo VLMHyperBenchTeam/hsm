@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="630"
+   height="630"
+   viewBox="0 0 630 630"
+   fill="none"
+   version="1.1"
+   id="svg64"
+   sodipodi:docname="ru-community-icon.svg"
+   inkscape:version="1.4.3 (1:1.4.3+202512261035+0d15f75042)"
+   inkscape:export-filename="ru-community-icon.png"
+   inkscape:export-xdpi="200"
+   inkscape:export-ydpi="200"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs64" />
+  <sodipodi:namedview
+     id="namedview64"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.0453395"
+     inkscape:cx="385.52068"
+     inkscape:cy="358.25682"
+     inkscape:window-width="1854"
+     inkscape:window-height="1011"
+     inkscape:window-x="66"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg64" />
+  <!-- Background -->
+  <rect
+     width="630"
+     height="630"
+     fill="#0e1116"
+     id="rect1"
+     inkscape:export-filename="rect1.png"
+     inkscape:export-xdpi="200"
+     inkscape:export-ydpi="200"
+     x="0"
+     y="0"
+     style="stroke-width:0.724043" />
+  <!-- Neural Background Pattern (Opacity 0.25 as requested) -->
+  <g
+     opacity="0.25"
+     id="g30">
+    <circle
+       cx="100"
+       cy="100"
+       r="2"
+       fill="#00FFCC"
+       id="circle1" />
+    <circle
+       cx="300"
+       cy="50"
+       r="2"
+       fill="#00FFCC"
+       id="circle2" />
+    <circle
+       cx="500"
+       cy="120"
+       r="2"
+       fill="#00FFCC"
+       id="circle3" />
+    <circle
+       cx="800"
+       cy="40"
+       r="2"
+       fill="#00FFCC"
+       id="circle4" />
+    <circle
+       cx="1100"
+       cy="100"
+       r="2"
+       fill="#00FFCC"
+       id="circle5" />
+    <circle
+       cx="50"
+       cy="300"
+       r="2"
+       fill="#00FFCC"
+       id="circle6" />
+    <circle
+       cx="400"
+       cy="250"
+       r="2"
+       fill="#00FFCC"
+       id="circle7" />
+    <circle
+       cx="750"
+       cy="320"
+       r="2"
+       fill="#00FFCC"
+       id="circle8" />
+    <circle
+       cx="1150"
+       cy="350"
+       r="2"
+       fill="#00FFCC"
+       id="circle9" />
+    <circle
+       cx="150"
+       cy="550"
+       r="2"
+       fill="#00FFCC"
+       id="circle10" />
+    <circle
+       cx="450"
+       cy="500"
+       r="2"
+       fill="#00FFCC"
+       id="circle11" />
+    <circle
+       cx="850"
+       cy="580"
+       r="2"
+       fill="#00FFCC"
+       id="circle12" />
+    <circle
+       cx="1050"
+       cy="520"
+       r="2"
+       fill="#00FFCC"
+       id="circle13" />
+    <g
+       stroke="#00FFCC"
+       stroke-width="0.5"
+       id="g29">
+      <line
+         x1="100"
+         y1="100"
+         x2="300"
+         y2="50"
+         id="line13" />
+      <line
+         x1="300"
+         y1="50"
+         x2="500"
+         y2="120"
+         id="line14" />
+      <line
+         x1="500"
+         y1="120"
+         x2="800"
+         y2="40"
+         id="line15" />
+      <line
+         x1="800"
+         y1="40"
+         x2="1100"
+         y2="100"
+         id="line16" />
+      <line
+         x1="100"
+         y1="100"
+         x2="50"
+         y2="300"
+         id="line17" />
+      <line
+         x1="50"
+         y1="300"
+         x2="400"
+         y2="250"
+         id="line18" />
+      <line
+         x1="400"
+         y1="250"
+         x2="750"
+         y2="320"
+         id="line19" />
+      <line
+         x1="750"
+         y1="320"
+         x2="1150"
+         y2="350"
+         id="line20" />
+      <line
+         x1="50"
+         y1="300"
+         x2="150"
+         y2="550"
+         id="line21" />
+      <line
+         x1="150"
+         y1="550"
+         x2="450"
+         y2="500"
+         id="line22" />
+      <line
+         x1="450"
+         y1="500"
+         x2="850"
+         y2="580"
+         id="line23" />
+      <line
+         x1="850"
+         y1="580"
+         x2="1050"
+         y2="520"
+         id="line24" />
+      <line
+         x1="1050"
+         y1="520"
+         x2="1150"
+         y2="350"
+         id="line25" />
+      <line
+         x1="400"
+         y1="250"
+         x2="450"
+         y2="500"
+         id="line26" />
+      <line
+         x1="750"
+         y1="320"
+         x2="850"
+         y2="580"
+         id="line27" />
+      <line
+         x1="500"
+         y1="120"
+         x2="400"
+         y2="250"
+         id="line28" />
+      <line
+         x1="800"
+         y1="40"
+         x2="750"
+         y2="320"
+         id="line29" />
+    </g>
+  </g>
+  <!-- Logo on the Left (Reduced size to 0.38) -->
+  <!-- Text Content (Shifted Right and Adjusted to fit) -->
+  <text
+     x="494.72397"
+     y="182.16818"
+     fill="#ffffff"
+     font-family="sans-serif"
+     font-size="80px"
+     font-weight="bold"
+     id="text51" />
+  <text
+     x="49.524418"
+     y="451.703"
+     fill="#daff00"
+     font-family="sans-serif"
+     font-size="386.709px"
+     font-weight="bold"
+     id="text52"
+     style="stroke-width:3.86709">RU</text>
+  <!-- Features Section (Full Width at Bottom) -->
+  <!-- Footer Status Bar -->
+  <line
+     x1="0"
+     y1="585"
+     x2="630"
+     y2="585"
+     stroke="#1e293b"
+     stroke-width="2"
+     id="line63" />
+</svg>

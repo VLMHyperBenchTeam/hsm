@@ -22,7 +22,7 @@ export default function Home(): React.JSX.Element {
             HYPER STACK <span className="text-secondary neon-text-lime">MANAGER</span>
           </h1>
           <p className="font-mono text-slate-300 text-sm md:text-base tracking-widest uppercase opacity-80">
-            Environment Hypervisor for Modern Hybrid Stacks
+            Гипервизор окружений для современных гибридных стеков
           </p>
           
           {/* Quick Start Button */}
@@ -35,7 +35,7 @@ export default function Home(): React.JSX.Element {
               }}
             >
               <span className="mr-3 text-lg font-mono">{'>'}_</span>
-              <span className="tracking-[0.2em]">QUICK START - 5 MIN</span>
+              <span className="tracking-[0.2em]">БЫСТРЫЙ СТАРТ - 5 МИН</span>
               
               {/* Decorative corner arrow */}
               <svg className="absolute -bottom-1 -right-1 w-4 h-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-1 group-hover:translate-y-1"
@@ -71,11 +71,11 @@ export default function Home(): React.JSX.Element {
             </div>
             
             <h3 className="font-display text-xl font-bold text-secondary mb-4 uppercase tracking-wide">
-              Lego-Architecture
+              Lego-архитектура
             </h3>
             
             <p className="font-mono text-sm text-slate-400 leading-relaxed">
-              Assemble your stack from independent components. Easily swap out implementation interfaces (e.g., one vector DB for another) with a single command.
+              Собирайте свой стек из независимых компонентов. Легко подменяйте реализации интерфейсов (например, одну векторную БД на другую) одной командой.
             </p>
           </div>
 
@@ -100,11 +100,11 @@ export default function Home(): React.JSX.Element {
             </div>
             
             <h3 className="font-display text-xl font-bold text-secondary mb-4 uppercase tracking-wide">
-              Hybrid Orchestration
+              Гибридная оркестрация
             </h3>
             
             <p className="font-mono text-sm text-slate-400 leading-relaxed">
-              Unified management of Python packages (via uv) and infrastructure services (via docker compose) in a single manifest.
+              Единое управление Python-пакетами (через uv) и инфраструктурными сервисами (через docker compose) в одном манифесте.
             </p>
           </div>
 
@@ -129,11 +129,11 @@ export default function Home(): React.JSX.Element {
             </div>
             
             <h3 className="font-display text-xl font-bold text-secondary mb-4 uppercase tracking-wide">
-              Atomic Synchronization
+              Атомарная синхронизация
             </h3>
             
             <p className="font-mono text-sm text-slate-400 leading-relaxed">
-              Transactional configuration updates. If dependencies don't resolve, your working files remain in a stable state.
+              Транзакционное обновление конфигураций. Если зависимости не разрешаются, ваши рабочие файлы остаются в стабильном состоянии.
             </p>
           </div>
 
@@ -144,13 +144,13 @@ export default function Home(): React.JSX.Element {
           <div className="flex items-center gap-6 text-[10px] font-mono text-slate-500">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-              <span className="text-primary/80">DOCS: SYNCHRONIZED | v0.0.1</span>
+              <span className="text-primary/80">ДОКУМЕНТАЦИЯ: СИНХРОНИЗИРОВАНА | v0.0.1</span>
             </div>
           </div>
           
           <div className="flex items-center gap-4 text-[10px] font-mono text-slate-500">
             <span className="hidden md:inline">Copyright © 2026 HyperTeam</span>
-            <span className="text-secondary">SYSTEM_STATUS: READY</span>
+            <span className="text-secondary">СТАТУС_СИСТЕМЫ: ГОТОВА</span>
           </div>
         </div>
 

@@ -90,8 +90,8 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: '#',
-          label: 'Community',
+          href: 'https://github.com/VLMHyperBenchTeam/hsm/issues',
+          label: 'Feedback',
           position: 'left',
         },
       ],

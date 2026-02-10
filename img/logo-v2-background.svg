@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="630"
+   height="630"
+   viewBox="0 0 630 630"
+   fill="none"
+   version="1.1"
+   id="svg64"
+   sodipodi:docname="ru-community-icon (Копия).svg"
+   inkscape:version="1.4.3 (1:1.4.3+202512261035+0d15f75042)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs64" />
+  <sodipodi:namedview
+     id="namedview64"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.73916665"
+     inkscape:cx="373.39347"
+     inkscape:cy="348.36528"
+     inkscape:window-width="1854"
+     inkscape:window-height="1011"
+     inkscape:window-x="66"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg64" />
+  <!-- Background -->
+  <rect
+     width="630"
+     height="630"
+     fill="#0e1116"
+     id="rect1"
+     inkscape:export-filename="rect1.png"
+     inkscape:export-xdpi="200"
+     inkscape:export-ydpi="200"
+     x="0"
+     y="0"
+     style="stroke-width:0.724043" />
+  <!-- Neural Background Pattern (Opacity 0.25 as requested) -->
+  <g
+     opacity="0.25"
+     id="g30">
+    <circle
+       cx="100"
+       cy="100"
+       r="2"
+       fill="#00FFCC"
+       id="circle1" />
+    <circle
+       cx="300"
+       cy="50"
+       r="2"
+       fill="#00FFCC"
+       id="circle2" />
+    <circle
+       cx="500"
+       cy="120"
+       r="2"
+       fill="#00FFCC"
+       id="circle3" />
+    <circle
+       cx="800"
+       cy="40"
+       r="2"
+       fill="#00FFCC"
+       id="circle4" />
+    <circle
+       cx="1100"
+       cy="100"
+       r="2"
+       fill="#00FFCC"
+       id="circle5" />
+    <circle
+       cx="50"
+       cy="300"
+       r="2"
+       fill="#00FFCC"
+       id="circle6" />
+    <circle
+       cx="400"
+       cy="250"
+       r="2"
+       fill="#00FFCC"
+       id="circle7" />
+    <circle
+       cx="750"
+       cy="320"
+       r="2"
+       fill="#00FFCC"
+       id="circle8" />
+    <circle
+       cx="1150"
+       cy="350"
+       r="2"
+       fill="#00FFCC"
+       id="circle9" />
+    <circle
+       cx="150"
+       cy="550"
+       r="2"
+       fill="#00FFCC"
+       id="circle10" />
+    <circle
+       cx="450"
+       cy="500"
+       r="2"
+       fill="#00FFCC"
+       id="circle11" />
+    <circle
+       cx="850"
+       cy="580"
+       r="2"
+       fill="#00FFCC"
+       id="circle12" />
+    <circle
+       cx="1050"
+       cy="520"
+       r="2"
+       fill="#00FFCC"
+       id="circle13" />
+    <g
+       stroke="#00FFCC"
+       stroke-width="0.5"
+       id="g29">
+      <line
+         x1="100"
+         y1="100"
+         x2="300"
+         y2="50"
+         id="line13" />
+      <line
+         x1="300"
+         y1="50"
+         x2="500"
+         y2="120"
+         id="line14" />
+      <line
+         x1="500"
+         y1="120"
+         x2="800"
+         y2="40"
+         id="line15" />
+      <line
+         x1="800"
+         y1="40"
+         x2="1100"
+         y2="100"
+         id="line16" />
+      <line
+         x1="100"
+         y1="100"
+         x2="50"
+         y2="300"
+         id="line17" />
+      <line
+         x1="50"
+         y1="300"
+         x2="400"
+         y2="250"
+         id="line18" />
+      <line
+         x1="400"
+         y1="250"
+         x2="750"
+         y2="320"
+         id="line19" />
+      <line
+         x1="750"
+         y1="320"
+         x2="1150"
+         y2="350"
+         id="line20" />
+      <line
+         x1="50"
+         y1="300"
+         x2="150"
+         y2="550"
+         id="line21" />
+      <line
+         x1="150"
+         y1="550"
+         x2="450"
+         y2="500"
+         id="line22" />
+      <line
+         x1="450"
+         y1="500"
+         x2="850"
+         y2="580"
+         id="line23" />
+      <line
+         x1="850"
+         y1="580"
+         x2="1050"
+         y2="520"
+         id="line24" />
+      <line
+         x1="1050"
+         y1="520"
+         x2="1150"
+         y2="350"
+         id="line25" />
+      <line
+         x1="400"
+         y1="250"
+         x2="450"
+         y2="500"
+         id="line26" />
+      <line
+         x1="750"
+         y1="320"
+         x2="850"
+         y2="580"
+         id="line27" />
+      <line
+         x1="500"
+         y1="120"
+         x2="400"
+         y2="250"
+         id="line28" />
+      <line
+         x1="800"
+         y1="40"
+         x2="750"
+         y2="320"
+         id="line29" />
+    </g>
+  </g>
+  <!-- Logo on the Left (Reduced size to 0.38) -->
+  <!-- Text Content (Shifted Right and Adjusted to fit) -->
+  <text
+     x="494.72397"
+     y="182.16818"
+     fill="#ffffff"
+     font-family="sans-serif"
+     font-size="80px"
+     font-weight="bold"
+     id="text51" />
+  <!-- Features Section (Full Width at Bottom) -->
+  <!-- Footer Status Bar -->
+  <g
+     id="g22"
+     transform="matrix(0.60948661,0,0,0.60948661,18.225428,18.102492)">
+    <path
+       d="M 866.397,706.215 486.925,925.303 107.454,706.215 V 268.039 L 486.925,48.9514 866.397,268.039 Z"
+       stroke="#ffffff"
+       stroke-width="24"
+       id="path1" />
+    <path
+       d="M 353.927,777.717 V 616.336 l 139.757,-80.691 v 161.381 z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path2" />
+    <path
+       d="M 633.44,777.717 V 616.336 L 493.683,535.645 v 161.381 z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path3" />
+    <path
+       d="M 493.684,858.402 353.927,777.711 493.684,697.026 633.442,777.711 Z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path4" />
+    <path
+       d="M 349.658,565.145 V 403.764 l 139.758,-80.691 v 161.382 z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path5" />
+    <path
+       d="M 629.174,565.145 V 403.764 L 489.417,323.073 v 161.382 z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path6" />
+    <path
+       d="M 489.416,645.83 349.658,565.139 489.416,484.455 629.173,565.139 Z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path7" />
+    <path
+       d="M 524.966,455.292 V 293.911 L 664.723,213.22 v 161.382 z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path8" />
+    <path
+       d="M 804.482,455.292 V 293.911 L 664.725,213.22 v 161.382 z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path9" />
+    <path
+       d="M 664.723,535.978 524.966,455.287 664.723,374.602 804.481,455.287 Z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path10" />
+    <path
+       d="M 171.508,460.275 V 298.894 l 139.757,-80.691 v 161.381 z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path11" />
+    <path
+       d="M 451.024,460.275 V 298.894 L 311.267,218.203 v 161.381 z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path12" />
+    <path
+       d="M 311.265,540.96 171.508,460.269 311.265,379.584 451.023,460.269 Z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path13" />
+    <path
+       d="M 345.393,352.573 V 191.191 L 485.15,110.5 v 161.382 z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path14" />
+    <path
+       d="M 624.907,352.573 V 191.191 L 485.149,110.5 v 161.382 z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path15" />
+    <path
+       d="M 485.15,433.257 345.393,352.567 485.15,271.882 624.908,352.567 Z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path16" />
+    <path
+       d="M 529.231,667.865 V 506.483 l 139.758,-80.69 v 161.381 z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path17" />
+    <path
+       d="M 808.748,667.865 V 506.483 L 668.99,425.793 v 161.381 z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path18" />
+    <path
+       d="M 668.989,748.55 529.231,667.859 668.989,587.174 808.746,667.859 Z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path19" />
+    <path
+       d="M 175.774,672.847 V 511.466 l 139.758,-80.691 v 161.382 z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path20" />
+    <path
+       d="M 455.291,672.847 V 511.466 L 315.533,430.775 v 161.382 z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path21" />
+    <path
+       d="M 315.532,753.532 175.774,672.841 315.532,592.157 455.289,672.841 Z"
+       fill="#05070a"
+       stroke="#ffffff"
+       stroke-width="12"
+       id="path22" />
+  </g>
+</svg>

@@ -108,9 +108,13 @@
 
 /* Navbar Customization */
 .navbar {
-  background-color: #0e1116 !important; /* Fixed dark color */
-  border-bottom: 1px solid #1e1e1e;
   padding: 0.5rem 2rem;
+}
+
+/* Navbar is ALWAYS dark, regardless of theme */
+.navbar {
+  background-color: #0e1116 !important;
+  border-bottom: 1px solid #1e1e1e !important;
 }
 
 .navbar__logo {
@@ -132,10 +136,14 @@
   font-family: 'Orbitron', sans-serif;
   font-size: 0.9rem;
   letter-spacing: 0.05em;
-  color: rgba(255, 255, 255, 0.7) !important;
   text-transform: uppercase;
   position: relative;
   padding: 0.5rem 0;
+}
+
+/* Navbar links are ALWAYS light (on dark background) */
+.navbar__link {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .navbar__link:hover,
@@ -178,15 +186,7 @@
   background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Hide theme toggle on home page */
-.home-page-active [class*='colorModeToggle'],
-.home-page-active .navbar__items > div:last-child,
-.home-page-active .navbar__item.clean-btn,
-.home-page-active button[class*='clean-btn'],
-.home-page-active .navbar__items--right > div:last-child,
-.home-page-active .navbar__items--right .clean-btn {
-  display: none !important;
-}
+/* Theme toggle is now globally disabled in config, so we don't need to hide it manually */
 
 /* Mermaid Diagram Backgrounds */
 div[class*='mermaid'] {
@@ -209,9 +209,9 @@ div[class*='mermaid'] svg {
 
 /* Footer Customization */
 .footer {
-  background-color: #0e1116 !important; /* Fixed dark color */
-  border-top: 1px solid #1e1e1e;
   padding: 1.5rem 2rem;
+  background-color: #0e1116 !important;
+  border-top: 1px solid #1e1e1e !important;
 }
 
 .footer__title {
@@ -225,8 +225,8 @@ div[class*='mermaid'] svg {
 
 .footer__link-item {
   font-family: 'JetBrains Mono', monospace;
-  color: rgba(255, 255, 255, 0.6) !important;
   transition: color 0.3s ease;
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 
 .footer__link-item:hover {
@@ -237,8 +237,8 @@ div[class*='mermaid'] svg {
 .footer__copyright {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.4);
   margin-top: 2rem;
+  color: rgba(255, 255, 255, 0.4) !important;
 }
 
 /* Custom Scrollbar for Cyberpunk Theme (Fixed) */

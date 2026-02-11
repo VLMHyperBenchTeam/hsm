@@ -2,23 +2,29 @@ import React, {useEffect} from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useColorMode} from '@docusaurus/theme-common';
+import useIsBrowser from '@docusaurus/useIsBrowser';
 import NeuralBackground from '@site/src/components/NeuralBackground';
 import Mermaid from '@theme/Mermaid';
 
-export default function Home(): React.JSX.Element {
-  const {siteConfig} = useDocusaurusContext();
+function HomeContent(): React.JSX.Element {
+  const isBrowser = useIsBrowser();
+  const {setColorMode} = useColorMode();
 
   useEffect(() => {
-    document.documentElement.classList.add('home-page-active');
-    return () => document.documentElement.classList.remove('home-page-active');
-  }, []);
-  
+    if (isBrowser) {
+      setColorMode('dark');
+      document.documentElement.classList.add('home-page-active');
+    }
+    return () => {
+      if (isBrowser) {
+        document.documentElement.classList.remove('home-page-active');
+      }
+    };
+  }, [isBrowser, setColorMode]);
+
   return (
-    <Layout
-      title={siteConfig.title}
-      description={siteConfig.tagline}
-      noFooter={true}
-      wrapperClassName="home-page">
+    <>
       <NeuralBackground />
       
       <div className="relative z-40 w-full min-h-screen flex flex-col items-center justify-center p-4 md:p-12 pt-32 md:pt-48">
@@ -597,6 +603,20 @@ graph TD
         </div>
 
       </div>
+    </>
+  );
+}
+
+export default function Home(): React.JSX.Element {
+  const {siteConfig} = useDocusaurusContext();
+  
+  return (
+    <Layout
+      title={siteConfig.title}
+      description={siteConfig.tagline}
+      noFooter={true}
+      wrapperClassName="home-page">
+      <HomeContent />
     </Layout>
   );
 }

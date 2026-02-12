@@ -114,11 +114,11 @@ HSM позволяет работать с распределенной сист
 ### 🧠 Умные зависимости (Implies)
 Компоненты умеют "заказывать" инфраструктуру. Если вы добавляете библиотеку `auth-plugin`, HSM сам поймет, что ей нужен сервис `postgres`, добавит его в стек и настроит доступы.
 
-Вы описываете **Намерение** (что вы хотите), HSM берет на себя **Реализацию** (как это настроить).
+Вы описываете **Намерение** через CLI-команды (что вы хотите), HSM берет на себя **Реализацию** (как это настроить).
 
 ```mermaid
 graph TD
-    Intent([Хочу qdrant-client в Dev режиме]) -- "hsm library mode ..." --> HSM_YAML[Обновляет hsm.yaml]
+    CLI[> hsm library mode qdrant-client dev] --> HSM_YAML[Обновляет hsm.yaml]
     HSM_YAML -- "hsm sync" --> HSM_Engine[HSM Engine: Реализует]
     
     HSM_Engine -- "add qdrant-client" --> Project

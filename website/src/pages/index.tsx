@@ -368,13 +368,13 @@ graph TD
                 И наоборот, выбранный сервис может заказать Python-пакет.
               </p>
               <p className="text-base md:text-lg text-secondary font-bold italic leading-relaxed">
-                Вы описываете Намерение (что вы хотите), HSM берет на себя Реализацию (как это настроить).
+                Вы описываете Намерение через CLI-команды (что вы хотите), HSM берет на себя Реализацию (как это настроить).
               </p>
             </div>
             <div className="bg-[#0e1116]/50 border border-primary/20 p-6 rounded-lg">
               <Mermaid value={`
 graph TD
-    Intent([Хочу qdrant-client в Dev режиме]) -- "hsm library mode ..." --> HSM_YAML[Обновляет hsm.yaml]
+    CLI[> hsm library mode qdrant-client dev] --> HSM_YAML[Обновляет hsm.yaml]
     HSM_YAML -- "hsm sync" --> HSM_Engine[HSM Engine: Реализует]
     
     HSM_Engine -- "add qdrant-client" --> Project

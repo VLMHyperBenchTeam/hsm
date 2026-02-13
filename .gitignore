@@ -1,6 +1,7 @@
 # Ignore virtual envs
 .venv/
 .env
+tmp
 
 # nested git repo
 .kilocode/

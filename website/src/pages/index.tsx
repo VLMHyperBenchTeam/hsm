@@ -319,7 +319,7 @@ graph TD
                 <div className="max-w-4xl mx-auto space-y-12">
                   <div className="space-y-6">
                     <h4 className="font-display text-xl md:text-2xl font-bold text-primary uppercase tracking-widest flex items-center gap-3">
-                      <span className="text-2xl">🧩</span> Динамический "Виртуальный Монорепозиторий"
+                      <span className="material-symbols-outlined text-3xl">hub</span> Динамический "Виртуальный Монорепозиторий"
                     </h4>
                     <p className="text-base md:text-lg leading-relaxed">HSM позволяет работать с распределенной системой как с единым целым:</p>
                     <ul className="list-none space-y-4 p-0 pl-8">
@@ -337,7 +337,7 @@ graph TD
 
                   <div className="space-y-6">
                     <h4 className="font-display text-xl md:text-2xl font-bold text-primary uppercase tracking-widest flex items-center gap-3">
-                      <span className="text-2xl">⚡️</span> Покомпонентный контроль (Granular Control)
+                      <span className="material-symbols-outlined text-3xl">tune</span> Покомпонентный контроль (Granular Control)
                     </h4>
                     <p className="text-base md:text-lg leading-relaxed">Вы управляете состоянием каждого компонента отдельно:</p>
                     <ul className="list-none space-y-4 p-0 pl-8">
@@ -360,8 +360,9 @@ graph TD
           {/* Section: Implies */}
           <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-white uppercase tracking-wider neon-text-cyan">
-                🧠 Умные зависимости (Implies)
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-white uppercase tracking-wider neon-text-cyan flex items-center gap-4">
+                <span className="material-symbols-outlined text-4xl md:text-5xl text-primary">psychology</span>
+                Умные зависимости (Implies)
               </h2>
               <p className="text-base md:text-lg leading-relaxed">
                 Выбранные Python-пакеты умеют "заказывать" инфраструктуру. Если вы добавляете библиотеку <code className="text-primary">auth-plugin</code>, HSM сам поймет, что ей нужен сервис <code className="text-primary">postgres</code>, добавит его в стек и настроит доступы.
@@ -398,13 +399,17 @@ graph TD
           {/* Section: Atomic Sync & Visual Proof */}
           <section className="space-y-12">
             <div className="bg-secondary/5 border border-secondary/20 p-6 rounded-lg text-center">
-              <h3 className="text-secondary font-bold uppercase tracking-widest mb-2">🛡️ Атомарная синхронизация</h3>
+              <h3 className="text-secondary font-bold uppercase tracking-widest mb-2 flex items-center justify-center gap-2">
+                <span className="material-symbols-outlined">lock</span>
+                Атомарная синхронизация
+              </h3>
               <p className="text-base md:text-lg leading-relaxed">Синхронизация — это транзакция. Если зависимости не сошлись, HSM откатит изменения в конфигах.</p>
             </div>
 
             <div className="max-w-4xl mx-auto">
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-8 text-center uppercase tracking-widest">
-                🚀 Посмотрите в деле (Visual Proof)
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-8 text-center uppercase tracking-widest flex items-center justify-center gap-4">
+                <span className="material-symbols-outlined text-4xl md:text-5xl text-primary">terminal</span>
+                Попробуйте в деле
               </h2>
               <div className="bg-[#0e1116] border border-primary/30 rounded-lg overflow-hidden shadow-2xl">
                 <div className="bg-[#1e1e1e] px-4 py-2 border-b border-primary/10 flex items-center gap-2">
@@ -440,8 +445,9 @@ graph TD
 
           {/* Section: Anatomy */}
           <section className="space-y-8">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white uppercase tracking-wider neon-text-cyan">
-              📦 Анатомия проекта
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white uppercase tracking-wider neon-text-cyan flex items-center gap-4">
+              <span className="material-symbols-outlined text-4xl md:text-5xl text-primary">account_tree</span>
+              Анатомия проекта
             </h2>
             <ul className="space-y-6 list-none p-0">
               <li>
@@ -461,8 +467,9 @@ graph TD
 
           {/* Section: Registry */}
           <section className="space-y-8">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white uppercase tracking-wider neon-text-cyan">
-              📚 Реестр: База знаний вашего стека
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white uppercase tracking-wider neon-text-cyan flex items-center gap-4">
+              <span className="material-symbols-outlined text-4xl md:text-5xl text-primary">library_books</span>
+              Реестр: База знаний вашего стека
             </h2>
             <p className="text-base md:text-lg text-slate-400 leading-relaxed">
               Реестр — это не просто список зависимостей, это <strong>интеллект вашего проекта</strong>. Настройте его один раз и переиспользуйте между командами и проектами.
@@ -515,14 +522,25 @@ graph TD
 
           {/* Section: Comparison Table */}
           <section className="max-w-4xl mx-auto overflow-x-auto">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-12 text-center uppercase tracking-wider neon-text-cyan">
-              🎯 Коротко о главном
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-12 text-center uppercase tracking-wider neon-text-cyan flex items-center justify-center gap-4">
+              <span className="material-symbols-outlined text-4xl md:text-5xl text-primary">fact_check</span>
+              Коротко о главном
             </h2>
             <table className="w-full border-collapse border border-primary/20 font-mono text-base md:text-lg">
               <thead>
                 <tr className="bg-primary/10">
-                  <th className="border border-primary/20 p-4 text-primary text-left uppercase tracking-widest">✅ HSM — это</th>
-                  <th className="border border-primary/20 p-4 text-slate-500 text-left uppercase tracking-widest">❌ HSM — это НЕ</th>
+                  <th className="border border-primary/20 p-4 text-primary text-left uppercase tracking-widest">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined">check_circle</span>
+                      HSM — это
+                    </div>
+                  </th>
+                  <th className="border border-primary/20 p-4 text-slate-500 text-left uppercase tracking-widest">
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined">cancel</span>
+                      HSM — это НЕ
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -544,8 +562,9 @@ graph TD
 
           {/* Section: Quick Start Final */}
           <section className="text-center space-y-12 py-12">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white uppercase tracking-widest neon-text-cyan">
-              🏁 Быстрый старт
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white uppercase tracking-widest neon-text-cyan flex items-center justify-center gap-4">
+              <span className="material-symbols-outlined text-4xl md:text-5xl text-primary">speed</span>
+              Быстрый старт
             </h2>
             <div className="max-w-2xl mx-auto bg-[#0e1116] border border-primary/30 p-8 rounded-2xl shadow-[0_0_50px_rgba(0,255,204,0.1)]">
               <div className="space-y-6 text-left font-mono">
@@ -577,8 +596,8 @@ graph TD
 
           {/* Section: Final Call to Action */}
           <section className="text-center space-y-8 pb-24">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white uppercase tracking-widest">
-              🏁 Готовы объединить Python и сервисы?
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white uppercase tracking-widest flex items-center justify-center gap-4">
+              Готовы объединить Python и сервисы?
             </h2>
             <p className="text-base md:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
               Не тратьте свое время на ручную синхронизацию конфигов. Позвольте HSM сделать это для вас.

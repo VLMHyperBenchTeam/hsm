@@ -409,7 +409,7 @@ graph TD
             <div className="max-w-4xl mx-auto">
               <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-8 text-center uppercase tracking-widest flex items-center justify-center gap-4">
                 <span className="material-symbols-outlined text-4xl md:text-5xl text-primary">terminal</span>
-                Попробуйте в деле
+                Синхронизация в деле
               </h2>
               <div className="bg-[#0e1116] border border-primary/30 rounded-lg overflow-hidden shadow-2xl">
                 <div className="bg-[#1e1e1e] px-4 py-2 border-b border-primary/10 flex items-center gap-2">

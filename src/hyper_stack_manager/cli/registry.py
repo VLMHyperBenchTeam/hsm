@@ -330,6 +330,9 @@ def registry_service_add(
     ports: Optional[List[str]] = typer.Option(None, "--port", "-p"),
     volumes: Optional[List[str]] = typer.Option(None, "--volume", "-v"),
     env: Optional[List[str]] = typer.Option(None, "--env", "-e"),
+    env_file: Optional[List[str]] = typer.Option(None, "--env-file", help="Service-level env file path(s)"),
+    prod_env_file: Optional[List[str]] = typer.Option(None, "--prod-env-file", help="Prod source env file path(s)"),
+    dev_env_file: Optional[List[str]] = typer.Option(None, "--dev-env-file", help="Dev source env file path(s)"),
     description: Optional[str] = typer.Option(None, "--description", "-d"),
     runtime: str = typer.Option("docker", "--runtime", "-rt", help="Runtime (docker/uv/podman)"),
     dependencies: Optional[List[str]] = typer.Option(None, "--dependency", "-dep", help="Service dependencies"),
@@ -378,7 +381,10 @@ def registry_service_add(
             volumes=volumes,
             env=env_dict,
             deployment_profiles=profiles,
-            dependencies=dependencies
+            dependencies=dependencies,
+            env_file=env_file,
+            prod_env_file=prod_env_file,
+            dev_env_file=dev_env_file,
         )
         console.print(f"[green]Service '{name}' added to registry.[/green]")
     except Exception as e:

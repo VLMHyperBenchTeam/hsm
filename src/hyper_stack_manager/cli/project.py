@@ -70,11 +70,12 @@ def project_library_init(
     name: str = typer.Argument(..., help="Library name"),
     path: Optional[Path] = typer.Option(None, "--path", "-p", help="Path to create the library"),
     register: bool = typer.Option(True, "--register/--no-register", help="Automatically register in registry"),
+    git_init: bool = typer.Option(False, "--git-init", help="Initialize a git repository in the library directory"),
 ):
     """Initialize a new library in the project."""
     hsm = HSMCore()
     try:
-        hsm.init_library(name, path=path, register=register)
+        hsm.init_library(name, path=path, register=register, git_init=git_init)
         console.print(f"[green]Library '{name}' initialized successfully.[/green]")
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
@@ -193,11 +194,12 @@ def project_service_init(
     runtime: str = typer.Option("uv", "--runtime", "-r", help="Runtime (uv/docker/podman)"),
     path: Optional[Path] = typer.Option(None, "--path", "-p", help="Path to create the service"),
     register: bool = typer.Option(True, "--register/--no-register", help="Automatically register in registry"),
+    git_init: bool = typer.Option(False, "--git-init", help="Initialize a git repository in the service directory"),
 ):
     """Initialize a new service in the project."""
     hsm = HSMCore()
     try:
-        hsm.init_service(name, runtime=runtime, path=path, register=register)
+        hsm.init_service(name, runtime=runtime, path=path, register=register, git_init=git_init)
         console.print(f"[green]Service '{name}' initialized successfully with runtime '{runtime}'.[/green]")
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")

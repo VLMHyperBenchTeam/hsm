@@ -2,6 +2,7 @@ import logging
 import os
 import yaml
 import importlib.metadata
+import subprocess
 from pathlib import Path
 from typing import List, Dict, Optional, Any, Union, Type
 
@@ -318,27 +319,25 @@ class HSMCore:
         self.manifest.save()
         logger.info(f"Added option {option} to group {group_name} in hsm.yaml")
 
-    def init_library(self, name: str, path: Optional[Path] = None, register: bool = True):
-        if path is None:
-            path = self.project_root / "packages" / name
-        
-        if not path.is_absolute():
-            path = self.project_root / path
+    def _init_git(self, path: Path):
+        """Initialize git repository in the target path."""
+        try:
+            subprocess.run(["git", "init"], check=True, cwd=path)
+        except FileNotFoundError as exc:
+            logger.error("git binary not found while initializing repository")
+            raise RuntimeError("git binary is not available") from exc
+        except subprocess.CalledProcessError as exc:
+            logger.error(f"git init failed in {path}: {exc}")
+            raise RuntimeError(f"git init failed in {path}: {exc}") from exc
 
-        logger.info(f"Initializing package '{name}' at {path}")
-        self.package_adapter.init_lib(path)
-
-        if register:
-            rel_path = os.path.relpath(path, self.project_root)
-            self.add_library_to_registry(
-                name=name,
-                version="0.1.0",
-                description=f"Local library {name}",
-                prod_source={"type": "local", "path": rel_path},
-                dev_source={"type": "local", "path": rel_path, "editable": True}
-            )
-
-    def init_service(self, name: str, runtime: str = "uv", path: Optional[Path] = None, register: bool = True):
+    def init_service(
+        self,
+        name: str,
+        runtime: str = "uv",
+        path: Optional[Path] = None,
+        register: bool = True,
+        git_init: bool = False,
+    ):
         """Initialize a new service at the given path."""
         if path is None:
             path = self.project_root / "services" / name
@@ -361,6 +360,9 @@ class HSMCore:
             path.mkdir(parents=True, exist_ok=True)
             logger.info(f"Created directory for service: {path}")
 
+        if git_init:
+            self._init_git(path)
+
         if register:
             # Check if already registered to avoid overwriting custom config
             existing = self.registry.get_details(name)
@@ -380,3 +382,32 @@ class HSMCore:
                         }
                     }
                 )
+
+    def init_library(
+        self,
+        name: str,
+        path: Optional[Path] = None,
+        register: bool = True,
+        git_init: bool = False,
+    ):
+        if path is None:
+            path = self.project_root / "packages" / name
+
+        if not path.is_absolute():
+            path = self.project_root / path
+
+        logger.info(f"Initializing package '{name}' at {path}")
+        self.package_adapter.init_lib(path)
+
+        if git_init:
+            self._init_git(path)
+
+        if register:
+            rel_path = os.path.relpath(path, self.project_root)
+            self.add_library_to_registry(
+                name=name,
+                version="0.1.0",
+                description=f"Local library {name}",
+                prod_source={"type": "local", "path": rel_path},
+                dev_source={"type": "local", "path": rel_path, "editable": True}
+            )

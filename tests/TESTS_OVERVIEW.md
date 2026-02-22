@@ -11,6 +11,14 @@
 *   **Идея**: Быстрая проверка парсинга аргументов, валидации ввода и корректности формирования внутренних структур данных.
 *   **Файлы**: `test_cli_basic.py`, `test_cli_project.py`, `test_cli_registry.py`, `test_registry_logic.py`.
 
+#### Покрытие активной задачи `env_file`
+- `test_cli_registry.py`:
+  - `ENV-CLI-001` — регистрация service c `--env-file`, `--prod-env-file`, `--dev-env-file` и сохранение в registry manifest.
+- `test_cli_project.py` и `test_environment_level.py`:
+  - инфраструктура переключения mode/profile и влияние на активную конфигурацию сервиса.
+- `test_env_file_failfast.py`:
+  - `ENV-FAIL-001..006` — fail-fast сценарии (missing file, invalid format, конфликты между `env_file` / `manifest.env` / `source.env` / `implies`).
+
 ### Уровень 2: System Level (Subprocess)
 *   **Инструмент**: `subprocess.run(["hsm", ...])`.
 *   **Идея**: Проверка того, что установленный пакет корректно работает через `entry_points` и взаимодействует с системным окружением.
@@ -20,6 +28,13 @@
 *   **Инструмент**: Реальные `uv`, `git`, `docker` (через `docker compose config`).
 *   **Идея**: Проверка реального изменения состояния системы (создание venv, установка пакетов, клонирование репозиториев). Мы не мокаем внешние инструменты, а заставляем HSM работать с ними по-настоящему.
 *   **Файлы**: `test_environment_level.py`, `test_ves_env.py`, `test_ves_git.py`, `test_ves_isolation.py`, `test_docker_validation.py`.
+
+#### Покрытие активной задачи `--git-init`
+- `test_cli_project.py`:
+  - `GIT-CLI-001` — `hsm library init --help` и `hsm service init --help` содержат `--git-init`.
+- `test_project_init_git.py`:
+  - `GIT-HF-001/002/003` — создание/отсутствие `.git` в зависимости от флага.
+  - `GIT-FAIL-001/002` — fail-fast при отсутствии бинарника `git` и при ошибке `git init`.
 
 ---
 
@@ -56,6 +71,7 @@
 | `test_cli_basic.py` | Базовые команды (`--help`, `init`). | Logic Level |
 | `test_cli_project.py` | Управление библиотеками, группами и режимами в проекте. | Logic Level |
 | `test_cli_registry.py` | CRUD операции в глобальном реестре. | Logic Level |
+| `test_env_file_failfast.py` | Fail-fast диагностика для `env_file` и конфликтов ENV-источников. | Logic Level / Validation |
 | `test_registry_logic.py` | Глубокая проверка логики реестра (группы, опции). | Logic Level |
 | `test_system_level.py` | Вызов реального бинарника `hsm` через subprocess. | System Level |
 | `test_docker_validation.py` | Валидность генерируемого `docker-compose.hsm.yml`. | High-Fidelity (Docker Config) |
@@ -65,6 +81,7 @@
 | `test_ves_git.py` | Клонирование сервисов из Git-репозиториев. | Local-Remote |
 | `test_ves_isolation.py` | Физическая изоляция venv сервисов от воркспейса. | High-Fidelity |
 | `test_sandbox.py` | Инструмент для ручной отладки в изолированном окружении. | Manual Debug |
+| `test_project_init_git.py` | High-Fidelity и fail-fast сценарии для `library/service init --git-init`. | High-Fidelity (Git) |
 
 ## 4. Запуск и отладка
 

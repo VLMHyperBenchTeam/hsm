@@ -1,6 +1,11 @@
 import subprocess
 import yaml
+import shutil
+from pathlib import Path
 from hyper_stack_manager.cli import app
+
+
+ASSETS_ENV_DIR = Path(__file__).parent / "assets" / "env_files"
 
 def test_docker_compose_config_validation(runner, hsm_sandbox):
     """Level 1.3: Test that hsm sync generates a valid docker-compose file."""
@@ -50,3 +55,30 @@ def test_docker_compose_config_validation(runner, hsm_sandbox):
     except FileNotFoundError:
         # Skip if docker is not installed in the test environment
         pass
+
+def test_docker_compose_contains_env_file(runner, hsm_sandbox):
+    """ENV-HF-001: docker runtime includes materialized env_file in compose."""
+    shutil.copy2(ASSETS_ENV_DIR / "shared.env", hsm_sandbox / "shared.env")
+
+    runner.invoke(app, ["init", "--name", "docker-env-file-test"])
+    result = runner.invoke(app, [
+        "registry", "service", "add", "web-env",
+        "--image", "nginx:latest",
+        "--runtime", "docker",
+        "--env-file", "shared.env",
+        "--no-input"
+    ])
+    assert result.exit_code == 0
+
+    runner.invoke(app, ["service", "add", "web-env"])
+    sync_result = runner.invoke(app, ["sync", "--no-verify"])
+    assert sync_result.exit_code == 0
+
+    compose_file = hsm_sandbox / "docker-compose.hsm.yml"
+    with open(compose_file, "r") as f:
+        compose_data = yaml.safe_load(f)
+
+    service_cfg = compose_data["services"]["web-env"]
+    assert "env_file" in service_cfg
+    assert ".env.web-env" in service_cfg["env_file"]
+    assert (hsm_sandbox / ".env.web-env").exists()

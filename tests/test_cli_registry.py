@@ -1,4 +1,5 @@
 import pytest
+import yaml
 from hyper_stack_manager.cli import app
 from pathlib import Path
 
@@ -104,3 +105,31 @@ def test_registry_service_add_no_input(runner, tmp_path):
     assert result.exit_code == 0
     assert "Service 'test-svc' added to registry" in result.stdout
     assert (registry_dir / "services" / "test-svc.yaml").exists()
+
+def test_registry_service_add_with_env_file(runner, tmp_path):
+    """ENV-CLI-001: service registration accepts env_file options."""
+    registry_dir = tmp_path / "registry"
+    registry_dir.mkdir()
+
+    result = runner.invoke(app, [
+        "registry", "service", "add", "env-svc",
+        "--runtime", "docker",
+        "--image", "redis:7",
+        "--build-path", "services/env-svc",
+        "--env-file", "shared.env",
+        "--prod-env-file", "prod.env",
+        "--dev-env-file", "dev.env",
+        "--no-input",
+        "--registry", str(registry_dir)
+    ])
+
+    assert result.exit_code == 0
+    svc_file = registry_dir / "services" / "env-svc.yaml"
+    assert svc_file.exists()
+
+    with open(svc_file, "r") as f:
+        data = yaml.safe_load(f)
+
+    assert data["env_file"] == ["shared.env"]
+    assert data["sources"]["prod"]["env_file"] == ["prod.env"]
+    assert data["sources"]["dev"]["env_file"] == ["dev.env"]

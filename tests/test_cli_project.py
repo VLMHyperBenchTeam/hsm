@@ -86,3 +86,13 @@ def test_project_python_manager_set(runner, hsm_sandbox):
     result = runner.invoke(app, ["python-manager", "set", "pixi"])
     assert result.exit_code == 0
     assert "Python manager set to pixi" in result.stdout
+
+def test_project_init_help_contains_git_init(runner, hsm_sandbox):
+    """GIT-CLI-001: init commands expose --git-init option."""
+    lib_help = runner.invoke(app, ["library", "init", "--help"])
+    svc_help = runner.invoke(app, ["service", "init", "--help"])
+
+    assert lib_help.exit_code == 0
+    assert svc_help.exit_code == 0
+    assert "--git-init" in lib_help.stdout
+    assert "--git-init" in svc_help.stdout

@@ -60,10 +60,21 @@ class RegistryManager:
                     ports: List[str] = None, volumes: List[str] = None, env: Dict[str, str] = None,
                     container_name: Optional[str] = None, network_aliases: List[str] = None,
                     deployment_profiles: Optional[Dict[str, Any]] = None,
-                    dependencies: List[Union[str, Dict]] = None):
+                    dependencies: List[Union[str, Dict]] = None,
+                    env_file: Optional[List[str]] = None,
+                    prod_env_file: Optional[List[str]] = None,
+                    dev_env_file: Optional[List[str]] = None):
         """Add a service manifest to the registry."""
         services_dir = self.registry_path / "services"
         services_dir.mkdir(parents=True, exist_ok=True)
+
+        prod_source_data = dict(prod_source) if prod_source else None
+        dev_source_data = dict(dev_source) if dev_source else None
+
+        if prod_source_data is not None and prod_env_file:
+            prod_source_data["env_file"] = prod_env_file
+        if dev_source_data is not None and dev_env_file:
+            dev_source_data["env_file"] = dev_env_file
 
         manifest_data = {
             "name": name,
@@ -74,9 +85,10 @@ class RegistryManager:
             "ports": ports or [],
             "volumes": volumes or [],
             "env": env or {},
+            "env_file": env_file or [],
             "sources": {
-                "prod": prod_source,
-                "dev": dev_source
+                "prod": prod_source_data,
+                "dev": dev_source_data
             },
             "dependencies": dependencies or [],
             "deployment_profiles": deployment_profiles or {}

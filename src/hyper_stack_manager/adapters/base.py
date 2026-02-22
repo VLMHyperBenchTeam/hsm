@@ -57,7 +57,14 @@ class BasePackageManagerAdapter(ABC):
         pass
 
     @abstractmethod
-    def sync_service(self, path: Path, packages: List[str], frozen: bool = False, env_vars: Optional[Dict[str, str]] = None):
+    def sync_service(
+        self,
+        path: Path,
+        packages: List[str],
+        frozen: bool = False,
+        env_vars: Optional[Dict[str, str]] = None,
+        env_file: Optional[str] = None,
+    ):
         """Sync service dependencies.
 
         Args:
@@ -65,6 +72,7 @@ class BasePackageManagerAdapter(ABC):
             packages: List of package requirement strings to add to the service.
             frozen: If True, do not update dependencies, use lock file.
             env_vars: Optional environment variables to pass to the sync command.
+            env_file: Optional path to .env file to preload before env_vars overrides.
         """
         pass
 

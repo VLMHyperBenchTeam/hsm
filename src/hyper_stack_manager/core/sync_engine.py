@@ -1,7 +1,7 @@
 import logging
 import yaml
 from pathlib import Path
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Optional, Any, Tuple
 from ..models import LibraryManifest, ServiceManifest
 from ..manifest import HSMProjectManifest
 from ..adapters.base import BasePackageManagerAdapter, BaseContainerAdapter
@@ -19,6 +19,118 @@ class SyncEngine:
         self.registry_path = registry_path
         self.package_adapter = package_adapter
         self.container_adapter = container_adapter
+
+    def _parse_env_file(self, env_file: Path) -> Dict[str, str]:
+        """Parse .env file with strict validation and deterministic behavior."""
+        if not env_file.exists():
+            raise FileNotFoundError(f"env_file not found: {env_file}")
+
+        parsed: Dict[str, str] = {}
+        with env_file.open("r", encoding="utf-8") as f:
+            for line_number, raw_line in enumerate(f, start=1):
+                line = raw_line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                if "=" not in line:
+                    raise ValueError(
+                        f"Invalid env file format at {env_file}:{line_number}: '{line}'"
+                    )
+                key, value = line.split("=", 1)
+                key = key.strip()
+                value = value.strip()
+                if not key:
+                    raise ValueError(
+                        f"Invalid env file format at {env_file}:{line_number}: empty key"
+                    )
+                if key in parsed:
+                    raise ValueError(
+                        f"Duplicate key '{key}' inside env_file '{env_file}'"
+                    )
+                parsed[key] = value
+
+        return parsed
+
+    def _resolve_profile_name_for_service(self, name: str) -> str:
+        """Resolve active profile for service from project manifest."""
+        for g_cfg in self.manifest.service_groups.values():
+            selection = g_cfg.get("selection")
+            if selection == name or (isinstance(selection, (list, tuple)) and name in selection):
+                return g_cfg.get("profile") or "default"
+
+        srvs = self.manifest.data.get("services", {}).get("standalone", [])
+        for srv in srvs:
+            if isinstance(srv, dict) and srv.get("name") == name:
+                return srv.get("profile") or "default"
+
+        return "default"
+
+    def _resolve_active_source(self, manifest: ServiceManifest, name: str):
+        mode = self.manifest.get_mode(name)
+        return manifest.sources.dev if mode == "dev" and manifest.sources.dev else manifest.sources.prod
+
+    def _resolve_service_env_file_chain(self, manifest: ServiceManifest, source: Optional[Any]) -> List[str]:
+        """Resolve active env_file chain for service according to mode/profile/source."""
+        chain: List[str] = []
+        chain.extend(manifest.env_file)
+        if source and hasattr(source, "env_file"):
+            chain.extend(source.env_file)
+
+        seen = set()
+        deduped: List[str] = []
+        for p in chain:
+            if p not in seen:
+                deduped.append(p)
+                seen.add(p)
+        return deduped
+
+    def _materialize_service_env(
+        self,
+        name: str,
+        env_file_paths: List[str],
+        manifest_env: Dict[str, str],
+        source_env: Dict[str, str],
+        implied_env: Dict[str, str],
+    ) -> Tuple[Dict[str, str], Optional[str]]:
+        """Build final env with fail-fast conflict checks and materialize project .env file."""
+
+        def _merge_without_override(
+            target: Dict[str, str],
+            source_data: Dict[str, str],
+            source_label: str,
+            origins: Dict[str, str],
+        ):
+            for key, value in source_data.items():
+                if key in target:
+                    raise ValueError(
+                        f"env conflict for service '{name}': key '{key}' is defined in both "
+                        f"{origins[key]} and {source_label}"
+                    )
+                target[key] = str(value)
+                origins[key] = source_label
+
+        final_env: Dict[str, str] = {}
+        origins: Dict[str, str] = {}
+
+        for path_str in env_file_paths:
+            env_path = Path(path_str)
+            if not env_path.is_absolute():
+                env_path = (self.project_root / env_path).resolve()
+            parsed = self._parse_env_file(env_path)
+            _merge_without_override(final_env, parsed, f"env_file:{env_path}", origins)
+
+        _merge_without_override(final_env, manifest_env, "manifest.env", origins)
+        _merge_without_override(final_env, source_env, "source.env", origins)
+        _merge_without_override(final_env, implied_env, "implies.params", origins)
+
+        if not final_env:
+            return final_env, None
+
+        env_output = self.project_root / f".env.{name}"
+        with env_output.open("w", encoding="utf-8") as f:
+            for key in sorted(final_env.keys()):
+                f.write(f"{key}={final_env[key]}\n")
+
+        return final_env, str(env_output.relative_to(self.project_root))
 
     def sync(self, frozen: bool = False):
         """Sync project state with the manifest."""
@@ -187,25 +299,7 @@ class SyncEngine:
                 data = yaml.safe_load(f)
                 manifest = ServiceManifest(**data)
 
-            # Determine profile
-            profile_name = None
-            # Check service groups
-            for g_cfg in self.manifest.service_groups.values():
-                selection = g_cfg.get("selection")
-                if selection == name or (isinstance(selection, (list, tuple)) and name in selection):
-                    profile_name = g_cfg.get("profile")
-                    break
-            
-            # Check standalone services
-            if not profile_name:
-                srvs = self.manifest.data.get("services", {}).get("standalone", [])
-                for srv in srvs:
-                    if isinstance(srv, dict) and srv.get("name") == name:
-                        profile_name = srv.get("profile")
-                        break
-            
-            if not profile_name:
-                profile_name = "default"
+            profile_name = self._resolve_profile_name_for_service(name)
             
             if profile_name in manifest.deployment_profiles:
                 profile = manifest.deployment_profiles[profile_name]
@@ -213,9 +307,29 @@ class SyncEngine:
                 if profile.runtime == "uv":
                     mode = self.manifest.get_mode(name)
                     logger.debug(f"Service '{name}' mode: {mode}")
-                    source = manifest.sources.dev if mode == "dev" and manifest.sources.dev else manifest.sources.prod
+                    source = self._resolve_active_source(manifest, name)
                     logger.debug(f"Service '{name}' selected source: {source}")
                     
+                    implied_env: Dict[str, str] = {}
+                    if merged_implies:
+                        target_key = f"service:{name}"
+                        if target_key in merged_implies:
+                            for params in merged_implies[target_key]:
+                                for key, values in params.items():
+                                    if isinstance(values, list):
+                                        implied_env[key] = ",".join(map(str, values))
+                                    else:
+                                        implied_env[key] = str(values)
+
+                    env_file_chain = self._resolve_service_env_file_chain(manifest, source)
+                    service_env, materialized_env_file = self._materialize_service_env(
+                        name=name,
+                        env_file_paths=env_file_chain,
+                        manifest_env=manifest.env,
+                        source_env=source.env if source else {},
+                        implied_env=implied_env,
+                    )
+
                     if source:
                         path = None
                         if source.type in ["local", "build"]:
@@ -243,9 +357,7 @@ class SyncEngine:
                             
                             if path.exists():
                                 logger.info(f"Syncing isolated service '{name}' at {path}...")
-                                
-                                # Prepare environment for the service
-                                service_env = {**manifest.env, **source.env}
+
                                 logger.debug(f"Initial service env for '{name}': {service_env}")
                                 
                                 # Collect dependencies for the service
@@ -269,19 +381,17 @@ class SyncEngine:
                                 # (Recursive logic: service can have its own groups)
                                 # TODO: Implement recursive group resolution if needed
 
-                                # 3. Add merged implies (ENV and Dependencies)
-                                if merged_implies:
-                                    target_key = f"service:{name}"
-                                    if target_key in merged_implies:
-                                        for params in merged_implies[target_key]:
-                                            # In 2026, we assume implies for services primarily pass ENV
-                                            service_env.update({k: str(v) for k, v in params.items()})
-                                
                                 logger.debug(f"Final service env for '{name}': {service_env}")
                                 logger.debug(f"Final service packages for '{name}': {service_packages}")
                                 
                                 if hasattr(self.package_adapter, "sync_service"):
-                                    self.package_adapter.sync_service(path, service_packages, frozen=frozen, env_vars=service_env)
+                                    self.package_adapter.sync_service(
+                                        path,
+                                        service_packages,
+                                        frozen=frozen,
+                                        env_vars=service_env,
+                                        env_file=materialized_env_file,
+                                    )
 
     def _resolve_package_requirement(self, name: str) -> Optional[str]:
         """Resolve a library name to a requirement string."""
@@ -324,22 +434,7 @@ class SyncEngine:
             data = yaml.safe_load(f)
             manifest = ServiceManifest(**data)
         
-        # Check for profile in manifest
-        profile_name = None
-        # Check service groups
-        for g_cfg in self.manifest.service_groups.values():
-            selection = g_cfg.get("selection")
-            if selection == name or (isinstance(selection, (list, tuple)) and name in selection):
-                profile_name = g_cfg.get("profile")
-                break
-        
-        # Check standalone services
-        if not profile_name:
-            srvs = self.manifest.data.get("services", {}).get("standalone", [])
-            for srv in srvs:
-                if isinstance(srv, dict) and srv.get("name") == name:
-                    profile_name = srv.get("profile")
-                    break
+        profile_name = self._resolve_profile_name_for_service(name)
 
         if profile_name and profile_name in manifest.deployment_profiles:
             profile = manifest.deployment_profiles[profile_name]
@@ -352,21 +447,30 @@ class SyncEngine:
                 logger.debug(f"Service {name} runtime is {profile.runtime}, skipping docker-compose.")
                 return None
 
-        mode = self.manifest.get_mode(name)
-        source = manifest.sources.dev if mode == "dev" and manifest.sources.dev else manifest.sources.prod
+        source = self._resolve_active_source(manifest, name)
         
         if not source:
             return None
 
-        # Prepare environment with merged params support
-        env = {**manifest.env, **source.env}
+        env_file_chain = self._resolve_service_env_file_chain(manifest, source)
+        implied_env: Dict[str, str] = {}
         if merged_params:
             for k, v in merged_params.items():
-                # Support ${HSM_MERGED_PARAMS.key}
+                implied_env[k] = ",".join(map(str, v))
+
+        env, materialized_env_file = self._materialize_service_env(
+            name=name,
+            env_file_paths=env_file_chain,
+            manifest_env=manifest.env,
+            source_env=source.env,
+            implied_env=implied_env,
+        )
+
+        # Backward compatibility for placeholder syntax in environment values
+        if merged_params:
+            for k, v in merged_params.items():
                 placeholder = f"${{HSM_MERGED_PARAMS.{k}}}"
                 val_str = ",".join(map(str, v))
-                
-                # Replace in env values
                 for env_k, env_v in env.items():
                     if isinstance(env_v, str) and placeholder in env_v:
                         env[env_k] = env_v.replace(placeholder, val_str)
@@ -377,6 +481,8 @@ class SyncEngine:
             "ports": list(set(manifest.ports + source.ports)),
             "volumes": list(set(manifest.volumes + source.volumes)),
         }
+        if materialized_env_file:
+            service_cfg["env_file"] = [materialized_env_file]
         
         if manifest.network_aliases or source.network_aliases:
             service_cfg["networks"] = {

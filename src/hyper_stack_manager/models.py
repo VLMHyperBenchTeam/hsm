@@ -1,6 +1,6 @@
 from typing import Dict, List, Optional, Union, Literal, Any
 from enum import Enum
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 class RuntimeType(str, Enum):
     DOCKER = "docker"
@@ -36,7 +36,19 @@ class Source(BaseModel):
     ports: List[str] = Field(default_factory=list)
     volumes: List[str] = Field(default_factory=list)
     env: Dict[str, str] = Field(default_factory=dict)
+    env_file: List[str] = Field(default_factory=list)
     dockerfile: Optional[str] = None
+
+    @field_validator("env_file", mode="before")
+    @classmethod
+    def normalize_env_file(cls, value):
+        if value is None:
+            return []
+        if isinstance(value, str):
+            return [value]
+        if isinstance(value, list):
+            return value
+        raise TypeError("env_file must be a string or list of strings")
 
 class ManifestSources(BaseModel):
     prod: Optional[Source] = None
@@ -74,8 +86,20 @@ class ServiceManifest(BaseModel):
     ports: List[str] = Field(default_factory=list)
     volumes: List[str] = Field(default_factory=list)
     env: Dict[str, str] = Field(default_factory=dict)
+    env_file: List[str] = Field(default_factory=list)
     sources: ManifestSources
     dependencies: List[Union[str, HSMDependency]] = Field(default_factory=list)
     implies: Dict[str, Any] = Field(default_factory=dict)
     library_groups: Dict[str, Any] = Field(default_factory=dict)
     deployment_profiles: Dict[str, DeploymentProfile] = Field(default_factory=dict)
+
+    @field_validator("env_file", mode="before")
+    @classmethod
+    def normalize_env_file(cls, value):
+        if value is None:
+            return []
+        if isinstance(value, str):
+            return [value]
+        if isinstance(value, list):
+            return value
+        raise TypeError("env_file must be a string or list of strings")

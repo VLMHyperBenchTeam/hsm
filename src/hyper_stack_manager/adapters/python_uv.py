@@ -15,6 +15,32 @@ class UvAdapter(BasePackageManagerAdapter):
         super().__init__(project_root)
         self.pyproject_path = project_root / "pyproject.toml"
 
+    def _load_env_file(self, env_file: Path) -> Dict[str, str]:
+        """Load KEY=VALUE pairs from .env file with strict validation."""
+        if not env_file.exists():
+            raise FileNotFoundError(f"env_file not found: {env_file}")
+
+        result: Dict[str, str] = {}
+        with env_file.open("r", encoding="utf-8") as f:
+            for idx, raw_line in enumerate(f, start=1):
+                line = raw_line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                if "=" not in line:
+                    raise ValueError(
+                        f"Invalid env file format at {env_file}:{idx}: '{line}'"
+                    )
+                key, value = line.split("=", 1)
+                key = key.strip()
+                value = value.strip()
+                if not key:
+                    raise ValueError(
+                        f"Invalid env file format at {env_file}:{idx}: empty key"
+                    )
+                result[key] = value
+
+        return result
+
     def _get_base_cmd(self) -> List[str]:
         """Get the base uv command with optional --system flag."""
         if os.getenv("HSM_USE_SYSTEM") == "1":
@@ -89,12 +115,26 @@ class UvAdapter(BasePackageManagerAdapter):
             logger.error(f"uv init (service) failed: {e}")
             raise
 
-    def sync_service(self, path: Path, packages: List[str], frozen: bool = False, env_vars: Optional[Dict[str, str]] = None):
+    def sync_service(
+        self,
+        path: Path,
+        packages: List[str],
+        frozen: bool = False,
+        env_vars: Optional[Dict[str, str]] = None,
+        env_file: Optional[str] = None,
+    ):
         """Sync service dependencies using uv sync inside the service path."""
         env = os.environ.copy()
         env["UV_NO_WORKSPACE"] = "1"
         # Ensure we don't use the parent venv
         env.pop("VIRTUAL_ENV", None)
+
+        if env_file:
+            env_path = Path(env_file)
+            if not env_path.is_absolute():
+                env_path = (self.project_root / env_path).resolve()
+            env.update(self._load_env_file(env_path))
+
         if env_vars:
             env.update(env_vars)
 

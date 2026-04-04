@@ -52,6 +52,11 @@ hsm group add vector-db-adapter --option qdrant-adapter
 hsm sync
 ```
 
+## 📦 Локальные runtime volumes (`.hsm-volumes/`)
+
+Подробное описание вынесено в use case:
+[`tasks_descriptions/use_cases/local-runtime-volumes-hsm-volumes.md`](tasks_descriptions/use_cases/local-runtime-volumes-hsm-volumes.md)
+
 ## 📚 Документация
  
 Для глубокого погружения в концепции, воркфлоу и архитектуру посетите наш сайт:
